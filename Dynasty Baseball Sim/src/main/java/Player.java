@@ -50,6 +50,10 @@ public class Player {
 		return this.name;
 	}
 	
+	public String getPosition() {
+		return this.position;
+	}
+	
 	public String getHand() {
 		return this.batting;
 	}

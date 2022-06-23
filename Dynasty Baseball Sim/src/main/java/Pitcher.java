@@ -85,9 +85,31 @@ public class Pitcher {
 		return this.actArm.get(actArm.size()-1)[1];
 	}
 	
-	public String getPitch() {
-		int p = (int) Math.random()*pitchTypes.size();
-		return this.pitchTypes.get(p);
+	public String getPitch(int balls, int strikes) {
+		String pitch = "";
+		if(balls == 3 && strikes != 2) {
+			if(pitchTypes.contains("4-seamer") || pitchTypes.contains("2-seamer")) {
+				
+			}
+		}
+		if(strikes == 2) {
+			if(pitchTypes.contains("4-seamer")) {
+				
+			}
+			else if(pitchTypes.contains("2-seamer")) {
+				
+			}
+		}
+		if(pitchTypes.get(0).equals("Knuckleball")) {
+			int k = (int) Math.random()*9;
+			if(k < 9) {
+				pitch = "Knuckleball";
+			}
+			else {
+				pitch = "2-seamer";
+			}
+		}
+		return pitch;
 	}
 	
 	private int setPotential() {
@@ -214,49 +236,37 @@ public class Pitcher {
 		this.actEndurance.add(tempActual);
 		tempActual[1] = setSalary();
 		this.actSalary.add(tempActual);
-		if(this.potVelocity > 60) {
-			pitchTypes.add("4-seamer");		
-			if(this.potMovement > 80) {
-				pitchTypes.add("Cutter");
-			}
-			else if (this.potMovement > 70){
-				pitchTypes.add("Sinker");
-			}
-			else if (this.potMovement > 60){
-				pitchTypes.add("2-seamer");
-			}
-			else if(this.potDeception > 80) {
-				pitchTypes.add("Splitter");
-			}
-		}
-		else if (this.potMovement > 80){
-			pitchTypes.add("Cutter");
-		}
-		else if (this.potMovement > 70){
+		if(this.potVelocity > 55) {
+			pitchTypes.add("4-seamer");
+		}	
+		if(r.nextInt(99) < this.potMovement/2 && r.nextInt(99) < this.potVelocity/2) {
 			pitchTypes.add("Sinker");
 		}
-		else {
-			pitchTypes.add("2-seamer");
-		}		
-		if(this.potMovement > 80) {
-			if(this.potMovement > 90 && this.potDeception > 80) {
-				pitchTypes.add("Knuckle curve");
-			}
-			else {
-				pitchTypes.add("Curveball");				
-			}
+		else if(r.nextInt(99) < this.potMovement/2 && r.nextInt(99) < this.potVelocity/2) {
+			pitchTypes.add("Cutter");
 		}
-		else if(this.potMovement > 50) {
+		else if(r.nextInt(99) < this.potMovement) {
+			pitchTypes.add("2-seamer");
+		}
+		if(r.nextInt(99) < this.potMovement/8 && r.nextInt(99) < this.potDeception/8) {
+			pitchTypes.add("Screwball");
+		}
+		if(r.nextInt(99) < this.potMovement/2) {
+				pitchTypes.add("Curveball");				
+		}
+		if(r.nextInt(99) < this.potMovement/2) {
 			pitchTypes.add("Slider");
 		}
-		if(this.potDeception > 85) {
+		if(r.nextInt(99) < this.potDeception/10) {
 			pitchTypes.add("Splitter");
 		}
-		else if(this.potDeception > 60) {
+		else if(r.nextInt(99) < this.potDeception/2) {
 			pitchTypes.add("Changeup");
-		}		
+		}
 		if(this.potDeception > 90 && (potVelocity+potControl+potMovement) < 150) {
-			pitchTypes.add("Knuckleball");					
+			pitchTypes.clear();
+			pitchTypes.add("Knuckleball");
+			pitchTypes.add("2-seamer");			
 		}
 	}
 }
