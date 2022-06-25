@@ -1,6 +1,8 @@
 
 
 import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -58,7 +60,8 @@ public class Team {
 		ArrayList<String> placeNames = new ArrayList<String>();
 		Random r = new Random();
 		try { 
-			BufferedReader in = new BufferedReader(new FileReader("~/src/main/java/places.txt"));
+			InputStream is = getClass().getClassLoader().getResourceAsStream("places.txt");
+			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			while (in.ready()) { 
 				placeNames.add(in.readLine());
 			}
@@ -66,13 +69,15 @@ public class Team {
 			String firstName = placeNames.get(r.nextInt(placeNames.size()));
 			
 			ArrayList<String> teamNames = new ArrayList<String>();
-			BufferedReader into = new BufferedReader(new FileReader("~/src/main/java/teams.txt"));
+			InputStream isto = getClass().getClassLoader().getResourceAsStream("teams.txt");
+			BufferedReader into = new BufferedReader(new InputStreamReader(isto));
 			while (into.ready()) { 
 				teamNames.add(into.readLine());
 			}
 			into.close();
 			String lastName = teamNames.get(r.nextInt(teamNames.size()));
-			this.name = firstName + lastName;			
+			this.name = firstName + " " + lastName;
+			System.out.println(name);
 		}
 		catch (FileNotFoundException ex){
 			System.out.println(ex);

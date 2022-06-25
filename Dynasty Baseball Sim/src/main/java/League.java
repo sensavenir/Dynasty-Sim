@@ -14,6 +14,10 @@ public class League {
 	private ArrayList<Player> faHitters = new ArrayList<Player>();
 	private ArrayList<Pitcher> faPitchers = new ArrayList<Pitcher>();
 	
+	public Team getTeam(int index) {
+		return teams.get(index);
+	}
+	
 	public League(String name, int cap, boolean scout, boolean rule, String draft, int size, String fas, boolean ifas) {
 		this.name = name;
 		this.salaryCap = cap;

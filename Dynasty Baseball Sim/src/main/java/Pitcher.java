@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,53 +56,90 @@ public class Pitcher {
 	}
 	
 	public int getVelocity() {
-		return this.actVelocity.get(actVelocity.size()-1)[1];
+		return this.potVelocity;
 	}
 	
 	public int getMovement() {
-		return this.actMovement.get(actMovement.size()-1)[1];
+		return this.potMovement;
 	}
 	
 	public int getControl() {
-		return this.actControl.get(actControl.size()-1)[1];
+		return this.potControl;
 	}
 	
 	public int getDeception() {
-		return this.actDeception.get(actDeception.size()-1)[1];
+		return this.potDeception;
 	}
 	
 	public int getPickoff() {
-		return this.actPickoff.get(actPickoff.size()-1)[1];
+		return this.potPickoff;
 	}
 	
 	public int getReaction() {
-		return this.actReaction.get(actReaction.size()-1)[1];
+		return this.potReaction;
 	}
 	
 	public int getHands() {
-		return this.actHands.get(actHands.size()-1)[1];
+		return this.potHands;
 	}
 	
 	public int getArm() {
-		return this.actArm.get(actArm.size()-1)[1];
+		return this.potArm;
 	}
 	
-	public String getPitch(int balls, int strikes) {
+	public int getPitchSize() {
+		return this.pitchTypes.size();
+	}
+	
+	public String getPitch(int balls, int strikes, Player hitter) {
 		String pitch = "";
-		if(balls == 3 && strikes != 2) {
-			if(pitchTypes.contains("4-seamer") || pitchTypes.contains("2-seamer")) {
-				
+		if((this.getHand().equals("R") && (hitter.getHand().equals("L") || hitter.getHand().equals("SL")))
+			|| (this.getHand().equals("L") && (hitter.getHand().equals("R") || hitter.getHand().equals("SR")))) {
+			ArrayList<String> offSpeed = new ArrayList<String>();
+			if(pitchTypes.contains("Changeup")) {
+				offSpeed.add(pitchTypes.get(pitchTypes.indexOf("Changeup")));
 			}
-		}
-		if(strikes == 2) {
+			if(pitchTypes.contains("Screwball")) {
+				offSpeed.add(pitchTypes.get(pitchTypes.indexOf("Screwball")));
+			}
+			if(pitchTypes.contains("Curveball")) {
+				offSpeed.add(pitchTypes.get(pitchTypes.indexOf("Curveball")));
+			}
+			if(pitchTypes.contains("Knuckleball")) {
+				offSpeed.add(pitchTypes.get(pitchTypes.indexOf("Knuckleball")));
+			}
+			int k = (int) Math.random()*offSpeed.size()*2;
+			if(k < offSpeed.size()) {
+				pitch = offSpeed.get(k);
+			}
+		}	
+		if(balls == 3 && strikes != 2 && pitch.equals("")) {
+			ArrayList<String> fastBalls = new ArrayList<String>();
 			if(pitchTypes.contains("4-seamer")) {
-				
+				fastBalls.add(pitchTypes.get(pitchTypes.indexOf("4-seamer")));
 			}
-			else if(pitchTypes.contains("2-seamer")) {
-				
+			if(pitchTypes.contains("2-seamer")) {
+				fastBalls.add(pitchTypes.get(pitchTypes.indexOf("2-seamer")));
+			}
+			if(pitchTypes.contains("Cutter")) {
+				fastBalls.add(pitchTypes.get(pitchTypes.indexOf("Cutter")));
+			}
+			if(pitchTypes.contains("Sinker")) {
+				fastBalls.add(pitchTypes.get(pitchTypes.indexOf("Sinker")));
+			}
+			int k = (int) Math.round(Math.random()*fastBalls.size()*1.5);
+			if(k < fastBalls.size()) {
+				pitch = fastBalls.get(k);
 			}
 		}
-		if(pitchTypes.get(0).equals("Knuckleball")) {
+		else {
+			int k = (int) Math.round(Math.random()*(pitchTypes.size()-1));
+			if(k == -1) {
+				k = 0;
+			}
+			pitch = pitchTypes.get(k);
+		}
+		if(pitchTypes.contains("Knuckleball")) {
 			int k = (int) Math.random()*9;
 			if(k < 9) {
 				pitch = "Knuckleball";
@@ -109,12 +148,15 @@ public class Pitcher {
 				pitch = "2-seamer";
 			}
 		}
+		if(pitch.equals("")) {
+			pitch = pitchTypes.get(0);
+		}
 		return pitch;
 	}
 	
 	private int setPotential() {
 		Random r = new Random();
-		int tempRating = (int) Math.round((r.nextGaussian()*15)+55);
+		int tempRating = (int) Math.round((r.nextGaussian()*13)+70);
 		if(tempRating > 99) {
 			tempRating = 99;
 		}
@@ -130,29 +172,56 @@ public class Pitcher {
 		return salary;
 	}
 	
+	public void printOut() {
+		System.out.println(name + ": pitcher");
+		System.out.println("PO " + potVelocity + " FI " + potMovement + " CO " + potControl  + " SY " + potDeception + " EN " + potEndurance);
+		String pitches = pitchTypes.get(0) + ", ";
+		for(int i = 1; i < pitchTypes.size(); i++) {
+			pitches = pitches + pitchTypes.get(i);
+			if(i != pitchTypes.size()-1) {
+				pitches = pitches + ", ";
+			}
+		}
+		System.out.println(pitches);
+	}
+	
 	//constructor
 	public Pitcher () {
 		ArrayList<String> firstNames = new ArrayList<String>();
 		Random r = new Random();
 		try { 
-			BufferedReader in = new BufferedReader(new FileReader("~/src/main/java/firstnames.txt"));
+			InputStream is = getClass().getClassLoader().getResourceAsStream("firstnames.txt");
+			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			while (in.ready()) { 
 				firstNames.add(in.readLine());
 			}
 			in.close();
 			String firstName = firstNames.get(r.nextInt(firstNames.size()));
-
+			if(firstName.charAt(firstName.length()-1) == 'a') {
+				firstName = firstName.substring(0, firstName.length()-1);
+				double n = Math.random() * 3;
+				if(n < 1) {
+					firstName = firstName + "o";
+				}
+				else if(n < 2) {
+					firstName = firstName + "i";
+				}
+				else {
+					firstName = firstName + "e";
+				}
+			}
 			ArrayList<String> lastNames = new ArrayList<String>();
-			BufferedReader into = new BufferedReader(new FileReader("~/src/main/java/lastnames.txt"));
+			InputStream isto = getClass().getClassLoader().getResourceAsStream("lastnames.txt");
+			BufferedReader into = new BufferedReader(new InputStreamReader(isto));
 			while (into.ready()) { 
 				lastNames.add(into.readLine());
 			}
 			into.close();
 			String lastName = lastNames.get(r.nextInt(lastNames.size()));
-			this.name = firstName + lastName;
-
+			this.name = firstName + " " + lastName;
 			ArrayList<String> countries = new ArrayList<String>();
-			BufferedReader inthree = new BufferedReader(new FileReader("~/src/main/java/countries.txt"));
+			InputStream isthree = getClass().getClassLoader().getResourceAsStream("countries.txt");
+			BufferedReader inthree = new BufferedReader(new InputStreamReader(isthree));
 			while (inthree.ready()) { 
 				countries.add(inthree.readLine());
 			}
@@ -192,7 +261,7 @@ public class Pitcher {
 		this.development = setPotential();
 		this.decline = setPotential();
 		this.peak = (int) Math.round((r.nextGaussian()*1.5)+30);
-		this.greed = setPotential();
+		this.greed = setPotential();		
 		double rand = Math.random()*10;
 		if(rand > 3.5) {
 			throwing = "R";
@@ -220,9 +289,9 @@ public class Pitcher {
 		this.actVelocity.add(tempActual);
 		tempActual[1] = (int) Math.round(this.potMovement - ((r.nextGaussian())*5) - ((26-this.age)*5));
 		this.actMovement.add(tempActual);
-		tempActual[1] = (int) Math.round(this.potDeception - ((r.nextGaussian())*5) - ((26-this.age)*5));
+		tempActual[1] = (int) Math.round(this.potDeception - ((r.nextGaussian())*5) - ((26-this.age)*7));
 		this.actDeception.add(tempActual); 
-		tempActual[1] = (int) Math.round(this.potControl - ((r.nextGaussian())*10));
+		tempActual[1] = (int) Math.round(this.potControl - ((r.nextGaussian())*5) - ((26-this.age)*6));
 		this.actControl.add(tempActual);
 		tempActual[1] = (int) Math.round(this.potPickoff - ((r.nextGaussian())*5) - ((26-this.age)*5));
 		this.actPickoff.add(tempActual);
@@ -236,19 +305,22 @@ public class Pitcher {
 		this.actEndurance.add(tempActual);
 		tempActual[1] = setSalary();
 		this.actSalary.add(tempActual);
-		if(this.potVelocity > 55) {
+		if(this.potVelocity > 70) {
 			pitchTypes.add("4-seamer");
 		}	
-		if(r.nextInt(99) < this.potMovement/2 && r.nextInt(99) < this.potVelocity/2) {
+		else if(r.nextInt(99) < this.potVelocity/2) {
+			pitchTypes.add("4-seamer");
+		}
+		if(r.nextInt(99) < this.potMovement/3) {
 			pitchTypes.add("Sinker");
 		}
 		else if(r.nextInt(99) < this.potMovement/2 && r.nextInt(99) < this.potVelocity/2) {
 			pitchTypes.add("Cutter");
 		}
-		else if(r.nextInt(99) < this.potMovement) {
+		else {
 			pitchTypes.add("2-seamer");
 		}
-		if(r.nextInt(99) < this.potMovement/8 && r.nextInt(99) < this.potDeception/8) {
+		if(r.nextInt(99) < this.potMovement/6 && r.nextInt(99) < this.potDeception/6) {
 			pitchTypes.add("Screwball");
 		}
 		if(r.nextInt(99) < this.potMovement/2) {
@@ -257,10 +329,10 @@ public class Pitcher {
 		if(r.nextInt(99) < this.potMovement/2) {
 			pitchTypes.add("Slider");
 		}
-		if(r.nextInt(99) < this.potDeception/10) {
+		if(r.nextInt(99) < this.potDeception/5) {
 			pitchTypes.add("Splitter");
 		}
-		else if(r.nextInt(99) < this.potDeception/2) {
+		else if(r.nextInt(99) < this.potDeception) {
 			pitchTypes.add("Changeup");
 		}
 		if(this.potDeception > 90 && (potVelocity+potControl+potMovement) < 150) {
@@ -268,6 +340,19 @@ public class Pitcher {
 			pitchTypes.add("Knuckleball");
 			pitchTypes.add("2-seamer");			
 		}
+		if(pitchTypes.size() == 1) {
+			if(!pitchTypes.get(0).equals("4-seamer") && !pitchTypes.get(0).equals("2-seamer")) {
+				pitchTypes.add("4-seamer");
+			}
+			else {
+				pitchTypes.add("Slider");
+			}
+		}
+		if(!pitchTypes.contains("Changeup") && !pitchTypes.contains("Curveball") && !pitchTypes.contains("Slider")
+		   && !pitchTypes.contains("Splitter") && !pitchTypes.contains("Screwball") && !pitchTypes.contains("Knuckleball")) {
+			pitchTypes.add("Changeup");
+		}
+		printOut();
 	}
 }
 

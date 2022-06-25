@@ -63,31 +63,31 @@ public class Player {
 	}
 	
 	public int getPower() {
-		return this.actPower.get(actPower.size()-1)[1];
+		return this.potPower;
 	}
 	
 	public int getContact() {
-		return this.actContact.get(actContact.size()-1)[1];
+		return this.potContact;
 	}
 	
 	public int getSwing() {
-		return this.actSwing.get(actSwing.size()-1)[1];
+		return this.potSwing;
 	}
 	
 	public int getAggression() {
-		return this.actAggression.get(actAggression.size()-1)[1];
+		return this.potAggression;
 	}
 	
 	public int getRecognition() {
-		return this.actRecognition.get(actRecognition.size()-1)[1];
+		return this.potRecognition;
 	}
 	
 	public int getSpeed() {
-		return this.actSpeed.get(actSpeed.size()-1)[1];
+		return this.potSpeed;
 	}
 	
 	public int getReaction() {
-		return this.actReaction.get(actReaction.size()-1)[1];
+		return this.potReaction;
 	}
 	
 	public int getHands() {
@@ -97,11 +97,22 @@ public class Player {
 	public int getArm() {
 		return this.actArm.get(actArm.size()-1)[1];
 	}	
+	
+	public int getDefense() {
+		int defense = 0;
+		if(this.position.equals("LF") || this.position.equals("CF") || this.position.equals("RF")) {
+			defense = (int) Math.round(0.67*this.potSpeed + 0.33*this.potReaction);
+		}
+		else {
+			defense = (int) Math.round(0.5*this.potReaction + 0.5*this.potSpeed);
+		}
+		return defense;
+	}
 			
 	//generate random rating 1-99
 	private int setPotential() {
 		Random r = new Random();
-		int tempRating = (int) Math.round((r.nextGaussian()*15)+55);
+		int tempRating = (int) Math.round((r.nextGaussian()*13)+70);
 		if(tempRating > 99) {
 			tempRating = 99;
 		}
@@ -117,31 +128,53 @@ public class Player {
 		return salary;
 	}
 	
+	public void printOut() {
+		if(!position.equals("x")) {
+			System.out.println(name + ": " + position);			
+			System.out.println("DI " + potRecognition + " CN " + potContact + " SW " + potSwing  + " SL " + potPower);
+			System.out.println("SP " + potSpeed + " RA " + potReaction + " GL " + potHands  + " AR " + potArm);
+		}
+	}
+	
 	//constructor
 	public Player(String pos) {
 		this.position = pos;
 		ArrayList<String> firstNames = new ArrayList<String>();
 		Random r = new Random();
-		try { 
-			BufferedReader in = new BufferedReader(new FileReader("~/src/main/java/firstnames.txt"));
+		try {
+			InputStream is = getClass().getClassLoader().getResourceAsStream("firstnames.txt");
+			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			while (in.ready()) { 
 				firstNames.add(in.readLine());
 			}
 			in.close();
 			String firstName = firstNames.get(r.nextInt(firstNames.size()));
-			
+			if(firstName.charAt(firstName.length()-1) == 'a') {
+				firstName = firstName.substring(0, firstName.length()-1);
+				double n = Math.random() * 3;
+				if(n < 1) {
+					firstName = firstName + "o";
+				}
+				else if(n < 2) {
+					firstName = firstName + "i";
+				}
+				else {
+					firstName = firstName + "e";
+				}
+			}
 			ArrayList<String> lastNames = new ArrayList<String>();
-			BufferedReader into = new BufferedReader(new FileReader("~/src/main/java/lastnames.txt"));
+			InputStream isto = getClass().getClassLoader().getResourceAsStream("lastnames.txt");
+			BufferedReader into = new BufferedReader(new InputStreamReader(isto));
 			while (into.ready()) { 
 				lastNames.add(into.readLine());
 			}
 			into.close();
 			String lastName = lastNames.get(r.nextInt(lastNames.size()));
-			this.name = firstName + lastName;
-			
+			this.name = firstName + " " + lastName;
 			ArrayList<String> countries = new ArrayList<String>();
-			BufferedReader inthree = new BufferedReader(new FileReader("~/src/main/java/countries.txt"));
-			while (inthree.ready()) { 
+			InputStream isthree = getClass().getClassLoader().getResourceAsStream("countries.txt");
+			BufferedReader inthree = new BufferedReader(new InputStreamReader(isthree));
+			while (inthree.ready()) {
 				countries.add(inthree.readLine());
 			}
 			inthree.close();	
@@ -182,6 +215,7 @@ public class Player {
 		this.decline = setPotential();
 		this.peak = (int) Math.round((r.nextGaussian()*1.5)+30);
 		this.greed = setPotential();
+		printOut();
 		double rand = Math.random()*10;
 		if(rand > 3.5) {
 			batting = "R";
@@ -216,11 +250,11 @@ public class Player {
 		this.scoutability = setPotential();
 		Integer[] tempActual = new Integer[2];
 		tempActual[0] = this.age;
-		tempActual[1] = (int) Math.round(this.potPower - ((r.nextGaussian())*5) - ((26-this.age)*5));
+		tempActual[1] = (int) Math.round(this.potPower - ((r.nextGaussian())*5) - ((26-this.age)*6));
 		this.actPower.add(tempActual);
 		tempActual[1] = (int) Math.round(this.potContact - ((r.nextGaussian())*5) - ((26-this.age)*5));
 		this.actContact.add(tempActual);
-		tempActual[1] = (int) Math.round(this.potRecognition - ((r.nextGaussian())*5) - ((26-this.age)*5));
+		tempActual[1] = (int) Math.round(this.potRecognition - ((r.nextGaussian())*5) - ((26-this.age)*7));
 		this.actRecognition.add(tempActual); 
 		tempActual[1] = (int) Math.round(this.potSwing - ((r.nextGaussian())*10));
 		this.actSwing.add(tempActual);

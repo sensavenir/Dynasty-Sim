@@ -461,7 +461,6 @@ Abrudan
 Abrukov
 Abrunheiro
 Abrunhosa
-
 Absalom
 Absalyamoff
 Absalyamov
@@ -3026,31 +3025,23 @@ Andreli
 Andreo
 Andreoli
 Andreoni
-
 Andreotti
 Andreozzi
 Andres
-
 Andres
-
 Andresch
 Andresen
-
 Andresk
 Andreson
-
 Andress
 Andressen
 Andressohn
-
 Andresson
 Andresz
-
 Andreu
 Andrew
 Andrews
 Andrey
-Andrey@Pochta.Ru
 Andreya
 Andreyak
 Andreyanov
@@ -3888,7 +3879,6 @@ Ardao
 Ardaya
 Ardelean
 Ardeleanu
-Ardelia82@Hotmail.Com
 Arderios
 Arderiu
 Arderius
@@ -4302,19 +4292,19 @@ Arola
 Arolas
 Arold
 Aron
-Aron,Aaron
+Aron
 Arona
-Aroni,Aaron
-Aronin,Aaron
-Aronoff,Aaron
-Aronov,Aaron
-Aronow,Aaron
-Aronowitch,Aaron
-Aronowitz,Aaron
-Aronson,Aaron
+Aroni
+Aronin
+Aronoff
+Aronov
+Aronow
+Aronowitch
+Aronowitz
+Aronson
 Aronstam
 Aronstein
-Aronthal,Aaron
+Aronthal
 Aros
 Arosa
 Arosio
@@ -6269,7 +6259,7 @@ Baierschmitt
 Baig
 Baiges
 Baiget
-Baigildeev (Baigildiev)
+Baigildeev
 Baigorretegui
 Baigorri
 Baigorri
@@ -7093,7 +7083,7 @@ Barcelona
 Barcelos
 Barcena
 Barcena
-Barcena,
+Barcena
 Barcenas
 Barcenilla
 Barch
@@ -7546,7 +7536,7 @@ Barwig
 Barwinkel
 Barwolff
 Barycz
-Baryshnikov@Tut.By
+Baryshniko
 Barz
 Barza
 Barzallo
@@ -8141,7 +8131,7 @@ Beckh
 Beckhaus
 Beckhausen
 Beckhoff
-Beckhove.
+Beckhove
 Becki
 Beckinghausen
 Beckius
@@ -8181,7 +8171,7 @@ Beech
 Beeck
 Beederman
 Beedgen
-Beegal66@Aol.Com
+Beegal
 Beek
 Beek
 Beelenherm
@@ -9194,7 +9184,6 @@ Berlanas
 Berlanga
 Berlejung
 Berlin
-Berlin (Nothing to do with the city. The name means Son of Berl')
 Berlinches
 Berlinda
 Berlinde
@@ -9296,7 +9285,6 @@ Bernia
 Bernick
 Bernicke
 Bernickel
-Berniekitten@Hotmail.Com
 Bernier
 Berning
 Bernini
@@ -12354,7 +12342,6 @@ Brzymialkiewic
 Bschor
 Bschorer
 Bschorr
-Bstocksipo@Aol.Com
 Buñales
 Buñay
 Buño
@@ -13129,7 +13116,7 @@ Cabanillas
 Cabanilles
 Cabano
 Cabarcos
-Cabareda,
+Cabareda
 Cabarga
 Cabarrocas
 Cabarroo
@@ -13474,7 +13461,7 @@ Callau
 Calle
 Calle
 Calle
-Calle,
+Calle
 Callealta
 Callegari
 Calleiras
@@ -14952,7 +14939,6 @@ Cazon
 Cazorla
 Cazurro
 Cazzaniga
-Cb5522@Yahoo.Com
 Ceña
 Ceñal
 Ceñera
@@ -15213,7 +15199,7 @@ Cerrejon
 Cerri
 Cerrillo
 Cerro
-Cerro,
+Cerro
 Cerrolaza
 Cerron
 Cerros
@@ -17018,7 +17004,7 @@ Coomonte
 Coonen
 Cooper
 Cooper
-Cooper (Some Gentiles also use this name)
+Cooper
 Cooperman
 Coopman
 Coopmann
@@ -17724,7 +17710,7 @@ Csapo
 Csar
 Csaszar
 Csauth
-Cschepansk@Aol.Com
+Cschepansk
 Cseh
 Csellner
 Csepregi
@@ -19300,7 +19286,6 @@ Dente
 Denti
 Dentinho
 Denton
-Denverm@Aol.Com
 Denys
 Denzel
 Denzer
@@ -19331,7 +19316,7 @@ Derenthal
 Deres
 Derfel
 Derfelden
-Deribas (De Ribas)
+Deribas
 Deribin
 Deribo
 Derich
@@ -19514,7 +19499,7 @@ Devine
 Devis
 Devlin
 Devon
-Devondov@Aol.Com
+Devondov
 Devonport
 Devora
 Devos
@@ -20088,7 +20073,6 @@ Djindo
 Djirin
 Djisev
 Djitte
-Djromantica@Aol.Com
 Djugashvili
 Djumabaev
 Djumaev
@@ -20100,7 +20084,6 @@ Djura
 Djuro
 Djuromsky
 Dkhissi
-Dkhuck@Aol.Com
 Dlugosch
 Dlugosz
 Dmitrochenko
@@ -20590,7 +20573,6 @@ Doucet
 Doucoure
 Doudou
 Doudouh
-Doug_Morosoff@Usr.Com
 Dougal
 Dougherty
 Doughty
@@ -20663,7 +20645,6 @@ Dozmorov
 Dozo
 Dozorny
 Dozortsev
-Dperry3434@Aol.Com
 Drabble
 Drach
 Drachsel
@@ -21128,7 +21109,7 @@ Dupres
 Dupuis
 Dupuy
 Duque
-Duque,
+Duque
 Duquenne
 Duquesne
 Duquesnoy
@@ -21648,7 +21629,6 @@ Edde
 Eddison
 Eddleston
 Eddy
-Eddyo@Aol.Com
 Eded
 Edel
 Edelblut
@@ -21820,7 +21800,7 @@ Egorin
 Egorkin
 Egorov
 Egoscue
-Egoshina_7@Mail.Ru
+Egoshina
 Egoza
 Egozcue
 Egozque
@@ -21878,7 +21858,7 @@ Ehmanns
 Ehmcke
 Ehrat
 Ehrath
-Ehren (all names with Ehren are variations of Aaron)
+Ehren
 Ehrenberg
 Ehrenfeld
 Ehrenfest
@@ -22711,7 +22691,7 @@ Ellis
 Ellison
 Elliston
 Ellman
-Ellmond4144@Aol.Com
+Ellmond
 Ellringmann
 Ellrott
 Ellul
@@ -22974,8 +22954,7 @@ Endtner
 Endzelin
 Ene
 Enea
-Enea1,
-Enea59@Aol.Com
+Enea
 Enebral
 Eneco
 Enecoena
@@ -22983,7 +22962,6 @@ Eneev
 Enenkel
 Enenko
 Eneriz
-Eneriz,
 Enero
 Enes
 Enescu
@@ -23141,7 +23119,7 @@ Enzel
 Enzensperger
 Enzi
 Enzil
-Enzin,
+Enzin
 Enzl
 Enzlin
 Enzo
@@ -25300,7 +25278,6 @@ Feyen
 Feyh
 Feyl
 Feyrsinger
-Fgoogel@Worldnet.Att.Net
 Fiñana
 Fiaño
 Fiadeiro
@@ -25527,7 +25504,7 @@ Finke
 Finkel
 Finkelshtein
 Finkelson
-Finkelstein (dealing in diamonds)
+Finkelstein
 Finken
 Finkenfeld
 Finkerfeld
@@ -25667,7 +25644,6 @@ Fiuza
 Fix
 Fixe
 Fiz
-Fjw6@Aol.Com
 Flaño
 Flack
 Flacksman
@@ -25809,7 +25785,6 @@ Flurschutz
 Fluvia
 Fluxa
 Flynn
-Fmorrogrande@Rio.Skydome.Net
 Fobbe
 Foche
 Fochs
@@ -26249,7 +26224,6 @@ Foy
 Foya
 Foyu
 Foz
-Fr1gn1b@Aol.Com
 Fra
 Fraca
 Fracassi
@@ -27905,7 +27879,7 @@ Gareta
 Garfella
 Garfia
 Garfinkel
-Garfunkel (dealings with diamonds)
+Garfunkel
 Gargallo
 Gargano
 Gargantilla
@@ -29887,7 +29861,7 @@ Goltz
 Goltzer
 Goltzman
 Golub
-Golubtsova-Asja@Mail.Ru
+Golubtsova
 Golvano
 Golzsch
 Goma
@@ -30109,7 +30083,7 @@ Gordo
 Gordoa
 Gordobil
 Gordon
-Gordon (also used by many Gentiles, originally a Gentile name)
+Gordon
 Gordonis
 Gordoniz
 Gordopolov
@@ -30527,7 +30501,7 @@ Graevens
 Graewe
 Graf
 Grafahrend
-Grafanato.
+Grafanato
 Grafarend
 Grafe
 Grafen
@@ -30899,7 +30873,6 @@ Grewe
 Grewen
 Grewsmuhl
 Grey
-Grey37412@Yandex.Ru
 Grezella
 Griñan
 Griño
@@ -30924,7 +30897,6 @@ Gributsky
 Grichen
 Gridchin
 Gridharan
-Gridlady@Hotmail.Com
 Gridnev
 Grieb
 Griebe
@@ -31724,7 +31696,7 @@ Guelho
 Gueli
 Guell
 Guembe
-Guembe,
+Guembe
 Guemes
 Guemez
 Guen
@@ -31732,7 +31704,7 @@ Guenaga
 Guenard
 Guendicabeitia
 Guenfoudi
-Guengue,
+Guengue
 Guenot
 Guenter
 Guenters
@@ -32146,7 +32118,7 @@ Guta
 Gutala
 Gute
 Gutein
-Gutenkauf Agutenkauf@Enc.K12.Il.Us
+Gutenkauf
 Gutensohn
 Guter
 Gutermann
@@ -32191,7 +32163,6 @@ Gutscher
 Gutschke
 Gutschmidt
 Gutstein
-Gutstein@Radzilow.Com
 Gutt
 Gutta
 Gutte
@@ -33336,7 +33307,7 @@ Harrigaraykoborda
 Harrington
 Harriolha
 Harris
-Harris (also used by some Gentiles)
+Harris
 Harrison
 Harrmann
 Harrop
@@ -33344,7 +33315,7 @@ Harruazu
 Harry
 Harsing
 Hart
-Hart (also used by some Gentiles)
+Hart
 Harteis
 Harteisen
 Hartel
@@ -33372,7 +33343,7 @@ Hartlein
 Hartley
 Hartlohner
 Hartman
-Hartman (also used by some Gentiles)
+Hartman
 Hartmann
 Hartmanns
 Hartmans
@@ -33800,7 +33771,6 @@ Hazipov
 Hazov
 Hazpurua
 Hazteguieta
-Hboissydanglas@Aol.Com
 Head
 Healey
 Healy
@@ -35087,7 +35057,7 @@ Hillebrands
 Hillebrandt
 Hillebrecht
 Hilleke
-Hillel (Hillel is also the name for the Jewish center on college campuses)
+Hillel
 Hillemacher
 Hillemanns
 Hillen
@@ -35559,7 +35529,7 @@ Hofflin
 Hoffling
 Hoffma
 Hoffman
-Hoffman (also used by Gentiles)
+Hoffman
 Hoffmann
 Hoffmann
 Hoffmanns
@@ -37000,7 +36970,7 @@ Iddon
 Ideas
 Idee
 Idehen
-Idehzad@Hotmail.Com
+Idehzad
 Ideias
 Idelson
 Idemudia
@@ -37149,7 +37119,6 @@ Ijalba
 Ijaz
 Ijurco
 Ijurra
-Ijvjkf@Aol.Com
 Ikaran
 Ikaroz
 Ikarte
@@ -37887,7 +37856,6 @@ Iriguren
 Irimia
 Irimo
 Irina
-Irina_6565.@Mail.Ru
 Iriondo
 Iris
 Irisarri
@@ -39050,7 +39018,6 @@ Janzen
 Janzhul
 Jaouad
 Jaouhari
-Jap0325@Aol.Com
 Japaskurt
 Japmann
 Japon
@@ -39093,7 +39060,7 @@ Jareis
 Jarema
 Jaren
 Jares
-Jares(H)
+Jares
 Jaresch
 Jargstorff
 Jaria
@@ -39551,7 +39518,7 @@ Jevakhov
 Jevanov
 Jeverjeev
 Jevlakov
-Jevolojnov,
+Jevolojnov
 Jevons
 Jewell
 Jewers
@@ -40050,7 +40017,6 @@ Joyeux
 Joynson
 Jozwia
 Jozwiak
-Jpcherrie@Ev1.Net
 Juan
 Juan
 Juana
@@ -41129,7 +41095,7 @@ Kassen
 Kassens
 Kassi
 Kassimi
-Kassirer (Yiddish for Cash)
+Kassirer
 Kassmodel
 Kassner
 Kastelan
@@ -41218,7 +41184,7 @@ Katzevman
 Katzibin
 Katzidakis
 Katziff
-Katzin (rich)
+Katzin
 Katzis
 Katzlberger
 Katzmaier
@@ -43521,7 +43487,7 @@ Kriegbaum
 Kriegel
 Kriegenhofer
 Krieger
-Krieger, Kriegman (This name is also used by Gentiles)
+Kriegman
 Kriegeskorte
 Kriegeskotte
 Krieghoff
@@ -43690,7 +43656,7 @@ Krumschmidt
 Krumsee
 Krup
 Krupala
-Krupala,
+Krupala
 Krupnick
 Krupp
 Krupper
@@ -44082,16 +44048,6 @@ Kysel
 Kyselo
 Kzisidsk
 Löw
-L
-LIV
-LIX
-LVI
-LXI
-LXV
-LXX
-LXXXXI
-LXXXXV
-LXXXXVI
 Laçapateria
 Laña
 Laño-Erri
@@ -45816,7 +45772,7 @@ Lehbib
 Leher
 Lehmacher
 Lehman
-Lehman (money lender)
+Lehman
 Lehmann
 Lehmann
 Lehmanns
@@ -45943,7 +45899,7 @@ Leiva
 Leivas
 Leiviman
 Leiza
-Leiza,
+Leiza
 Leizabarrena
 Leizabe
 Leizaeta
@@ -46325,13 +46281,13 @@ Levesque
 Levett
 Levey
 Levi
-Levi (Exclusively Jewish, including all variations
+Levi
 Levia
 Levichev
 Levigne
 Levin
 Levine
-Levinsky/i
+Levinsky
 Levinsohn
 Levinstein
 Levinthal
@@ -46339,7 +46295,6 @@ Levish
 Levit
 Levita
 Levitan
-Levitan/sky or ski
 Levitansky
 Levitch
 Levite
@@ -46894,7 +46849,7 @@ Lindholz
 Lindhorst
 Lindhuber
 Lindim
-Lindinho,
+Lindinho
 Lindino
 Lindkamp
 Lindl
@@ -47796,7 +47751,6 @@ Lopez Roso
 Lopez Serrano
 Lopez Tello
 Lopez Tercero
-Lopezmarcia@Aol.Com
 Lopezosa
 Lopidana
 Lopo
@@ -47858,7 +47812,6 @@ Loretxu
 Lorez
 Lorga
 Lorge
-Lori.Stanton@Disney.Com
 Loria
 Lorido
 Loriente
@@ -48066,7 +48019,7 @@ Lozovsky
 Lozoya
 Lozza
 Luño
-Lu:
+Lu
 Luaces
 Luana
 Luariz
@@ -48341,7 +48294,6 @@ Luis
 Luis
 Luis
 Luisa
-Luisa.Daccione@Waitematadhb.Govt.Nz
 Luisi
 Luisio
 Luithardt
@@ -48685,7 +48637,7 @@ Lyrschikov
 Lysagora
 Lysak
 Lysakov
-Lysansky,
+Lysansky
 Lysenko
 Lysenkov
 Lysenny
@@ -48704,7 +48656,7 @@ Lysyansky
 Lysyh
 Lysykh
 Lysyuk
-Lytkin,
+Lytkin
 Lyubenov
 Lyubenova
 Lyubomirov
@@ -50229,7 +50181,6 @@ Markel
 Markeli
 Markelin
 Markendaya
-Marketing.Ac@Besins-International.Com
 Markeze
 Markfort
 Markgraf
@@ -50665,7 +50616,6 @@ Maryshev
 Marysyuk
 Maryushkin
 Maryutin
-Maryza@Rdtc.Ru
 Marza
 Marzabal
 Marzagoo
@@ -50801,7 +50751,7 @@ Massoni
 Massons
 Massot
 Massot
-Mast132@Yandex.Ru
+
 Mastache
 Masterra
 Masterreka
@@ -51104,7 +51054,7 @@ Mautner
 Mavalvala
 Mawson
 Max
-Maxa/B
+Maxa
 Maxim
 Maximiano
 Maximina
@@ -51321,7 +51271,6 @@ Mcpherson
 Mcrae
 Mcshane
 Mctaggart
-Mdylvr@Aol.Com
 Meñaca
 Meñaka
 Meñakabarrena
@@ -52338,7 +52287,6 @@ Mice
 Miceli
 Micha
 Michael
-Michael-Kaplan@Att.Net
 Michaeli
 Michaelies
 Michaelis
@@ -52397,7 +52345,6 @@ Michudo
 Michurin
 Mickael
 Mickel
-Mickeymn45@Aol.Com
 Miclaus
 Miclea
 Mico
@@ -52686,7 +52633,6 @@ Milhaud
 Milheiras
 Milheiriço
 Milheiro
-Milhert@Samit.Ru
 Milhinhos
 Milhona
 Milia
@@ -53176,7 +53122,6 @@ Mlotkovsky
 Mlotkpwsk
 Mlotok
 Mlynnik
-Mnahor@Hotmail.Com
 Mnatsakanov
 Mnatsakanyan
 Mndjoyan
@@ -53844,7 +53789,7 @@ Montecelo
 Montechosk
 Montecino
 Montecinos
-Montefiore (disambiguation)
+Montefiore
 Montegordo
 Montehermoso
 Monteil
@@ -56245,7 +56190,6 @@ Ngoma
 Nguema
 Nguyen
 Nhari
-Nhzeus@Aol.Com
 Niñerola
 Niño
 Niñoles
@@ -57763,8 +57707,7 @@ Ogterop
 Ogtrop
 Ogueta
 Ogueta
-Oh 
-Oh_My12@Hotmail.Com
+Oh
 Ohalloran
 Ohana
 Ohanian
@@ -60520,7 +60463,6 @@ Pazuhin
 Pazukhin
 Pazy
 Pazyun
-Pdl1@Speedy.Com.Ar
 Peça
 Peças
 Peña
@@ -60889,7 +60831,7 @@ Pencheva
 Penco
 Pendas
 Pender
-Pender (2)
+Pender
 Penders
 Pendharkar
 Pendik
@@ -62394,7 +62336,6 @@ Plumer
 Plumhoff
 Plummer
 Pluskota
-Plusoneelectric@Aol.Com
 Plut
 Pluymackers
 Plymakers
@@ -65908,7 +65849,6 @@ Reposo
 Reppert
 Represa
 Represas
-Reptilia2004@Rambler.Ru
 Repulles
 Repullo
 Requa
@@ -66104,7 +66044,6 @@ Rezmives
 Rezola
 Rezusta
 Rghioui
-Rguever@Aol.Com
 Rheder
 Rhee
 Rheem
@@ -67346,7 +67285,6 @@ Roschlein
 Rosco
 Roscoe
 Rose
-Roseblazer@Msn.Com.
 Roseboom
 Rosedahl
 Rosedale
@@ -69510,8 +69448,8 @@ Sapateiro
 Sapela
 Sapena
 Saperas
-Saperstein (deals with sapphire)
-Saphir (deals with sapphire)
+Saperstein
+Saphir
 Sapiña
 Sapienza
 Sapin
@@ -69910,7 +69848,6 @@ Sbert
 Sbihi
 Sbircea
 Sca
-Scadthing@Bellsouth.Net
 Scaffidi
 Scaglia
 Scaglione
@@ -70771,7 +70708,7 @@ Schneeweiss
 Schnegg
 Schnegula
 Schneider
-Schneider (some Gentiles use this name)
+Schneider
 Schneiderbauer
 Schneiderheinze
 Schneiderlochner
@@ -72155,7 +72092,6 @@ Shadilya
 Shadkhan
 Shadsky
 Shadura
-Shadura@Hotmail.Com
 Shadursky
 Shadyev
 Shaer
@@ -72413,7 +72349,7 @@ Sheikh
 Shel
 Shelbourn
 Sheldon
-Shelomo (Solomon)
+Shelomo
 Shelting
 Shelton
 Sheludchenko
@@ -72525,7 +72461,7 @@ Shive
 Shkolnik
 Shlensky
 Shlomit
-Shlomo (Solomon)
+Shlomo
 Shlonsky
 Shmelke
 Shmuel
@@ -72850,14 +72786,14 @@ Silvela
 Silvente
 Silver
 Silvera
-Silverberg (mountain of silver)
+Silverberg
 Silveria
 Silverio
 Silverman
-Silvermintz (name of one in the money
+Silvermintz
 Silvero
 Silvers
-Silverstein (jeweler)
+Silverstein
 Silvestre
 Silvestri
 Silvestro
@@ -73481,7 +73417,6 @@ Sondershaus
 Sondershausen
 Soneira
 Sonet
-Soneyreflex@Aol.Com
 Song
 Songen
 Songes
@@ -74143,7 +74078,7 @@ Steigenberger
 Steiglechner
 Stein
 Stein
-Stein (exclusively Jewish)
+Stein
 Steinbauer
 Steinbeck
 Steinberg
@@ -74660,7 +74595,7 @@ Strauff
 Strauhs
 Strauss
 Strauss
-Strauss (used by some Gentiles)
+Strauss
 Strautmann
 Strecke
 Street
@@ -74786,7 +74721,6 @@ Stuck
 Stuckenschmidt
 Stuckert
 Stuckey
-Studdx10@Aol.Com
 Stueber
 Stuecklas
 Stuerbecher
@@ -74987,7 +74921,6 @@ Suetterlin
 Sueur
 Sugasti
 Sugden
-Sugerchar@Aol.Com
 Sugg
 Sughavanam
 Sugrañes
@@ -75409,7 +75342,6 @@ Taco
 Tacon
 Tacoronte
 Tacuri
-Tacy@Bogrick.Freeserve.Co.Uk
 Tadda
 Taddei
 Taddeo
@@ -75570,7 +75502,6 @@ Talleda
 Talledo
 Taller
 Tallett
-Tallman.Sherrie@Dorseylaw.Com
 Tallo
 Tallon
 Talmach
@@ -76576,7 +76507,6 @@ Teyssier
 Tezanos
 Tezza
 Tfarci
-Tfraynd@Aol.Com
 Thackeray
 Thackray
 Thaden
@@ -76623,7 +76553,6 @@ Thebelt
 Thebes
 Thebus
 Thebuss
-Thedahls@Dahl-House.Com
 Thedens
 Thedinga
 Theel
@@ -77267,7 +77196,6 @@ Tinti
 Tintin
 Tinto
 Tintore
-Tinymolly@Aol.Com
 Tio
 Tio
 Tiozzo
@@ -77346,10 +77274,7 @@ Tjaarda
 Tjeerdstra
 Tkachenko
 Tkachuk
-Tkenemy@Aol.Com
 Tlaghi
-To The First  Page
-To The First Page
 Toader
 Toal
 Toala
@@ -78617,7 +78542,7 @@ Tsiolkovsky
 Tsipushtanov
 Tsiulev
 Tso
-Tsogas (Tsogkas)
+Tsogas
 Tsoumada
 Tsval
 Tsvei
@@ -81557,7 +81482,7 @@ Veronese
 Veronesi
 Veroo
 Verove
-Verpeto(A)
+Verpeto
 Verpoort
 Verre
 Verri
@@ -82651,7 +82576,6 @@ Vlad
 Vladescu
 Vladimirov
 Vladimirova
-Vladslade@Rambler.Ru
 Vladu
 Vlahos
 Vlaicu
@@ -83258,7 +83182,7 @@ Wahbi
 Waheed
 Wahid
 Wahl
-Wahl (This name is also used by some Gentiles)
+Wahl
 Wahler
 Wahlers
 Wahlert
@@ -85537,7 +85461,7 @@ Yñyguez
 Yañez
 Yaagoubi
 Yaakoubi
-Yaakov (variation of Jacob)
+Yaakov
 Yaba
 Yabar
 Yaben
@@ -85673,25 +85597,22 @@ Yakir
 Yaklashkin
 Yakob
 Yakobi
-Yakobl (variation of Jacob)
 Yakobson
-Yakof (variation of Jacob)
-Yakofman (variation of Jacob)
+Yakof 
+Yakofman
 Yakon
 Yakoub
 Yakouben
 Yakov
-Yakov (variation of Jacob)
+Yakov
 Yakovchenko
 Yakovchuk
-Yakovdynin@Yandex.Ru
 Yakovenko
 Yakovets
 Yakovichenko
 Yakovkin
 Yakovlenko
 Yakovlev
-Yakovman (variation of Jacob)
 Yakovuk
 Yaksha
 Yakshibaev
@@ -86691,7 +86612,6 @@ Zanussi
 Zanutto
 Zanuy
 Zanzi
-Zaodro@Aol.Com
 Zaoui
 Zaoujal
 Zapardiel
