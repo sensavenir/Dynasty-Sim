@@ -40,6 +40,7 @@ public class BattedBall {
 		bbType = type;
 		exitVelocity = velocity;
 		azimuth = az;
+		launchAngle = launch;
 		distance = dist;
 		time = t;
 		foul = f;

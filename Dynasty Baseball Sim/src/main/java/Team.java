@@ -13,7 +13,7 @@ public class Team {
 	private String name;
 	private int ID;
 	private int leagueID;
-	private String[] Stadium = new String[10];
+	private Integer[] Stadium = {330, 410, 330, 8, 8, 8, 1};
 	private ArrayList<Player> hitters = new ArrayList<Player>();
 	private ArrayList<Pitcher> pitchers = new ArrayList<Pitcher>();
 	private int starter = 1;
@@ -54,6 +54,11 @@ public class Team {
 	public String getName() {
 		return this.name;
 	}
+	
+	public Integer[] getStadium() {
+		return this.Stadium;
+	}
+	
 	
 	public Team(int id) {
 		this.leagueID = id;

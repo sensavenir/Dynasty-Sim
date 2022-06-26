@@ -127,9 +127,10 @@ public class Pitcher {
 			if(pitchTypes.contains("Sinker")) {
 				fastBalls.add(pitchTypes.get(pitchTypes.indexOf("Sinker")));
 			}
-			int k = (int) Math.round(Math.random()*fastBalls.size()*1.5);
-			if(k < fastBalls.size()) {
-				pitch = fastBalls.get(k);
+			int k = (int) Math.round(Math.random()*9);
+			if(k < 7) {
+				int f = (int) Math.round(Math.random()*(fastBalls.size()-1));
+				pitch = fastBalls.get(f);
 			}
 		}
 		else {
