@@ -71,10 +71,6 @@ li.dropdown .dropbtn {
 
 <body>
 
-<ul class="topnav">
-	<li><a href="/messages">DYNASTY</a></li>
-</ul>
-
 <ul class="sidenav">
   <li class="dropdown">
     <a href="/teams" class="dropbtn">Teams</a>

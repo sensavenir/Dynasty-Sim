@@ -91,11 +91,11 @@ public class Player {
 	}
 	
 	public int getHands() {
-		return this.actHands.get(actHands.size()-1)[1];
+		return this.potHands;
 	}
 	
 	public int getArm() {
-		return this.actArm.get(actArm.size()-1)[1];
+		return this.potArm;
 	}	
 	
 	public int getDefense() {

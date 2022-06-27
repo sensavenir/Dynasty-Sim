@@ -13,7 +13,7 @@ public class Team {
 	private String name;
 	private int ID;
 	private int leagueID;
-	private Integer[] Stadium = {330, 410, 330, 8, 8, 8, 1};
+	private Integer[] stadium = {330, 410, 330, 8, 8, 8};
 	private ArrayList<Player> hitters = new ArrayList<Player>();
 	private ArrayList<Pitcher> pitchers = new ArrayList<Pitcher>();
 	private int starter = 1;
@@ -56,9 +56,12 @@ public class Team {
 	}
 	
 	public Integer[] getStadium() {
-		return this.Stadium;
+		return this.stadium;
 	}
 	
+	public void setStadium(Integer[] dimensions) {
+		stadium = dimensions.clone();
+	}
 	
 	public Team(int id) {
 		this.leagueID = id;
