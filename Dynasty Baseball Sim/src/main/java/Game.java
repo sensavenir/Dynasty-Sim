@@ -35,9 +35,9 @@ public class Game {
 
 	//generate batted ball outcome
 	private BattedBall outCome(String pitch, Integer[] location, Pitcher pitcher, Player hitter) {
-		int batSpeed = normalizeRating(hitter.getPower());
+		int batSpeed = hitter.getPower();
 		int swing = hitter.getSwing();
-		int contact = normalizeRating(hitter.getContact());
+		int contact = hitter.getContact();
 		int velocity = normalizeRating(pitcher1.getVelocity());
 		int movement = normalizeRating(pitcher1.getMovement());		
 		//roll for exit velocity, batted ball type and azimuth
@@ -45,7 +45,7 @@ public class Game {
 		outVelo = outVelo + Math.abs(13 - location[1]);
 		outVelo = (int) Math.round(outVelo/4);
 		Random d = new Random();			
-		double exitVelocity = (d.nextGaussian()*6) + (scale(batSpeed, 1, 60, 80, 97)) + (scale(contact, 1, 60, 0, 5)) - (scale(movement, 1, 60, 0, 10));
+		double exitVelocity = (d.nextGaussian()*6) + (scale(batSpeed, 1, 99, 73, 88)) - (scale(movement, 1, 60, 0, 10));
 		exitVelocity = exitVelocity - outVelo;
 		double azimuth = 0;
 		String bbType = "";
@@ -65,10 +65,10 @@ public class Game {
 		int launchAngle = 0;
 		for(int i = 0; i < 10; i++) {
 			if(pitch.equals(bbPitch[i][0])) {				
-				double count = 99 - Integer.parseInt(bbPitch[i][1]) + (location[1]) + (scale(swing, 1, 99, 0, 32) - 16);				
+				double count = 99 - Integer.parseInt(bbPitch[i][1]) + (location[1]) + (scale(swing, 1, 99, -15, 5)) - scale(movement, 1, 99, 0, 16);				
 				if(bb > count) {
 					bbType = "Groundball";
-					launchAngle = (int) Math.round((Math.random()*45) - 40 + (scale(swing, 1, 99, 0, 10) - 5));
+					launchAngle = (int) Math.round((Math.random()*45) - 40);
 					break;
 				}					
 				count = count - Integer.parseInt(bbPitch[i][2]);	
@@ -80,7 +80,7 @@ public class Game {
 				count = count - Integer.parseInt(bbPitch[i][3]) - (int) Math.round((((double) location[1] - 13)*0.8)) - (int) Math.round(((scale(swing, 1, 60, 0, 26) - 13)*0.8));
 				if(bb > count) {
 					bbType = "Flyball";
-					launchAngle = (int) Math.round((Math.random()*30) + 25 + (scale(swing, 1, 99, 0, 10) - 5));
+					launchAngle = (int) Math.round((Math.random()*30) + 25 + (scale(swing, 1, 99, 0, 15)) - (scale(movement, 1, 99, 0, 16)*0.8));
 					break;
 				}
 				if(bb > count) {
@@ -175,7 +175,7 @@ public class Game {
 		double xDef = pos[0]*Math.sin(Math.toRadians(pos[1]));
 		double yDef = pos[0]*Math.cos(Math.toRadians(pos[1]));
 		double ground2Cover = Math.sqrt(Math.pow(xBall - xDef, 2) + Math.pow(yBall - yDef, 2));
-		double defTime = r.nextGaussian()*scale(normalizeRating(60-defender.getDefense()), 1, 60, 0.15, 0.6) + ground2Cover/(r.nextGaussian() + scale(normalizeRating(defender.getDefense()), 1, 60, 17, 25));
+		double defTime = r.nextGaussian()*scale(normalizeRating(60-defender.getReaction()), 1, 60, 0.5, 1.5) + ground2Cover/(r.nextGaussian() + scale(normalizeRating(defender.getDefense()), 1, 60, 15, 23));
 		System.out.println(defender.getPosition() + " | Hang time: " + time + ", Route time: " + defTime);		
 		if(time >= defTime) {
 			caught = true;
@@ -213,6 +213,7 @@ public class Game {
 			if(bb.getDistance() > (team1.getStadium()[0]/Math.cos(Math.toRadians(bb.getAzimuth()*3))) + (team1.getStadium()[3]/Math.tan(Math.toRadians(bb.getLaunch())))) {
 				hr = true;
 				System.out.println(batter.getName() + " hits a home run!");
+				batter.setOutcome("HR");
 			}
 		}
 		else if(bb.getAzimuth() <= 15 && bb.getLaunch() > 0) {
@@ -220,6 +221,7 @@ public class Game {
 			if(bb.getDistance() > (team1.getStadium()[1]/Math.cos(Math.toRadians(45-(bb.getAzimuth()*3)))) + (team1.getStadium()[4]/Math.tan(Math.toRadians(bb.getLaunch())))) {
 				hr = true;
 				System.out.println(batter.getName() + " hits a home run!");
+				batter.setOutcome("HR");
 			}
 		}
 		else if(bb.getAzimuth() <= 20 && bb.getLaunch() > 0) {
@@ -227,6 +229,7 @@ public class Game {
 			if(bb.getDistance() > (team1.getStadium()[1]/Math.cos(Math.toRadians((bb.getAzimuth()*3)-45))) + (team1.getStadium()[4]/Math.tan(Math.toRadians(bb.getLaunch())))) {
 				hr = true;
 				System.out.println(batter.getName() + " hits a home run!");
+				batter.setOutcome("HR");
 			}
 		}
 		else if(bb.getAzimuth() <= 30 && bb.getLaunch() > 0) {			
@@ -234,6 +237,7 @@ public class Game {
 			if(bb.getDistance() > (team1.getStadium()[2]/Math.cos(Math.toRadians(90-(bb.getAzimuth()*3)))) + (team1.getStadium()[5]/Math.tan(Math.toRadians(bb.getLaunch())))) {				
 				hr = true;
 				System.out.println(batter.getName() + " hits a home run!");
+				batter.setOutcome("HR");
 			}
 		}
 		return hr;
@@ -250,27 +254,27 @@ public class Game {
 			if(bb.getAzimuth() < 2) {
 				defender = lineup.get("3B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 500 - defense) {
+				if(r.nextInt(1000) > 450 - defense) {
 					caught = true;							
 				}
 			}
 			else if(bb.getAzimuth() < 5) {
 				defender = lineup.get("3B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 150 - defense) {
+				if(r.nextInt(1000) > 200 - defense) {
 					caught = true;
 				}					
 			}
 			else if(bb.getAzimuth() < 8) {
 				defender = lineup.get("3B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 150 - defense) {
+				if(r.nextInt(1000) > 200 - defense) {
 					caught = true;
 				}					
 				if(caught == false) {
 					defender = lineup.get("SS");
 					defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-					if(r.nextInt(1000) > 150 - defense) {
+					if(r.nextInt(1000) > 200 - defense) {
 						caught = true;
 					}						
 				}
@@ -278,20 +282,20 @@ public class Game {
 			else if (bb.getAzimuth() < 12) {
 				defender = lineup.get("SS");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 120 - defense) {
+				if(r.nextInt(1000) > 200 - defense) {
 					caught = true;
 				}
 			}
 			else if (bb.getAzimuth() < 18) {
 				defender = lineup.get("SS");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 800 - defense) {
+				if(r.nextInt(1000) > 850 - defense) {
 					caught = true;
 				}
 				if(caught == false) {
 					defender = lineup.get("2B");
 					defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-					if(r.nextInt(1000) > 800 - defense) {
+					if(r.nextInt(1000) > 850 - defense) {
 						caught = true;
 					}						
 				}
@@ -299,14 +303,14 @@ public class Game {
 			else if (bb.getAzimuth() < 23) {
 				defender = lineup.get("2B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 120 - defense) {
+				if(r.nextInt(1000) > 200 - defense) {
 					caught = true;
 				}
 			}		
 			else if (bb.getAzimuth() < 26) {
 				defender = lineup.get("2B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 633 - defense) {
+				if(r.nextInt(1000) > 200 - defense) {
 					caught = true;
 				}
 				if(caught == false) {
@@ -320,7 +324,7 @@ public class Game {
 			else if (bb.getAzimuth() < 29) {
 				defender = lineup.get("1B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 230 - defense) {
+				if(r.nextInt(1000) > 200 - defense) {
 					caught = true;
 				}
 			}
@@ -365,7 +369,7 @@ public class Game {
 			}
 			else if(bb.getType().equals("Flyball")) {
 				if(bb.getDistance() > positioning.get(defender.getPosition())[0]) {
-					if(r.nextInt(100) > 80 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) + scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 10)) {
+					if(r.nextInt(100) > 80 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9)) {
 						hit[0] = "3B";
 						hit[1] = defender.getPosition();
 					}
@@ -375,7 +379,7 @@ public class Game {
 					}
 				}
 				else {
-					if(r.nextInt(100) > 70 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) + scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 10) ) {
+					if(r.nextInt(100) > 70 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9)- scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 10) ) {
 						hit[0] = "2B";
 						hit[1] = defender.getPosition();
 					}
@@ -387,11 +391,11 @@ public class Game {
 			}
 			else {
 				if(bb.getDistance() > positioning.get(defender.getPosition())[0]) {
-					if(r.nextInt(100) > 90 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) + scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9) - scale(bb.getVelo(), 65, 102, -9, 9) && bb.getVelo() > 75) {
+					if(r.nextInt(100) > 90 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
 						hit[0] = "3B";
 						hit[1] = defender.getPosition();
 					}
-					else if(r.nextInt(100) > 70 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) + scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
+					else if(r.nextInt(100) > 70 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
 						hit[0] = "2B";
 						hit[1] = defender.getPosition();
 					}
@@ -401,7 +405,7 @@ public class Game {
 					}
 				}
 				else {
-					if(r.nextInt(100) > 67 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) + scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 10) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
+					if(r.nextInt(100) > 67 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 10) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
 						hit[0] = "2B";
 						hit[1] = defender.getPosition();
 					}
@@ -768,14 +772,6 @@ public class Game {
 		//start game
 		for(int inning = 1; inning < 10; inning++) {			
 			while(top == true) {
-				try
-				{
-				    Thread.sleep(5000);
-				}
-				catch(InterruptedException ex)
-				{
-				    Thread.currentThread().interrupt();
-				}
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				pitcher1.printOut();
 				lineup2.get(index2.get(lineupCount2)).printOut();
@@ -792,8 +788,8 @@ public class Game {
 							first[1] = "";								
 							if(outs == 3) {
 								outs = 0;							
-								top = false;
-								break;
+								top = !top;
+								continue;
 							}
 						}
 					}
@@ -882,19 +878,22 @@ public class Game {
 					   && steal < (55 - scale(normalizeRating(pitcher1.getPickoff()), 1, 60, -5, 5) - scale(normalizeRating(lineup1.get("C").getArm()), 1, 60, -5, 5) + scale(normalizeRating(lineup2.get(first[1]).getSpeed()), 1, 60, -10, 10) + (team2.getStealing()/2))) {	
 						if(r.nextInt(100) > 70 - scale(normalizeRating(pitcher1.getPickoff()), 1, 60, -5, 5) - scale(normalizeRating(lineup1.get("C").getArm()), 1, 60, -5, 5) + scale(normalizeRating(lineup2.get(first[1]).getSpeed()), 1, 60, -10, 10)) {
 							System.out.println(first[0] + " gets caught stealing, thrown out by " + lineup1.get("C").getName() + "!");
+							lineup2.get(index2.get(lineupCount2)).setOutcome("CS");
 							outs++;
 							first[0] = "";
 							first[1] = "";	
 							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 								outs = 0;	
 								balls = 0;
 								strikes = 0;
-								top = false;
-								break;
+								top = !top;
+								continue;
 							}
 						}		
 						else { 
 							System.out.println(first[0] + " steals second!");
+							lineup2.get(index2.get(lineupCount2)).setOutcome("SB");
 							second = first;
 							first[0] = "";
 							first[1] = "";
@@ -912,11 +911,12 @@ public class Game {
 							first[0] = "";
 							first[1] = "";
 							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 								outs = 0;	
 								balls = 0;
 								strikes = 0;
-								top = false;
-								break;
+								top = !top;
+								continue;
 							}
 						}		
 						else { 
@@ -936,22 +936,20 @@ public class Game {
 				int moveRating = normalizeRating(pitcher1.getMovement());
 				int aggressRating = normalizeRating(lineup2.get(index2.get(lineupCount2)).getAggression());					
 				boolean swung = false;
-				if(ball == true) {
-					if(s <= threshold - (scale(recogRating, 1, 60, 0, 60) - 30) + (scale(deceptRating, 1, 60, 0, 16 - 8)) 
-					   + (scale(veloRating, 1, 60, 0, 12 - 6)) + (scale(moveRating, 1, 60, 0, 30 - 15)) + (scale(aggressRating, 2, 57, 0, 12) - 6) + (pitcher1.getPitchSize()-1)*3) {
-						swung = true;
-					}
+				if(s <= threshold - (scale(recogRating, 1, 60, -20, 30)) + (scale(deceptRating, 1, 60, -5, 5)) 
+				   + (scale(veloRating, 1, 60, -5, 5)) + (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
+					swung = true;
 				}
 				else {
-					if(s <= threshold + (scale(recogRating, 1, 60, 0, 60) - 30) - (scale(deceptRating, 1, 60, 0, 16 - 8)) 
-					   - (scale(veloRating, 1, 60, 0, 12 - 6)) - (scale(moveRating, 1, 60, 0, 30 - 15)) + (scale(aggressRating, 2, 57, 0, 12) - 6) - (pitcher1.getPitchSize()-1)*3) {
+					if(s <= threshold + (scale(recogRating, 1, 60, -20, 30)) - (scale(deceptRating, 1, 60, -5, 5)) 
+					   - (scale(veloRating, 1, 60, -5, 5)) - (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
 						swung = true;
 					}
-				}
+				}		
 				if(swung == true) {
 					//swung, contact roll
 					int c = (int) Math.round(Math.random() * 100);
-					int contactSplit = platoonEffect(normalizeRating(lineup2.get(index2.get(lineupCount2)).getContact()), 
+					int contactSplit = platoonEffect(lineup2.get(index2.get(lineupCount2)).getContact(), 
 							lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "contact");
 					int recogSplit = platoonEffect(normalizeRating(lineup2.get(index2.get(lineupCount2)).getRecognition()), 
 							lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "recognition");
@@ -959,25 +957,7 @@ public class Game {
 							lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "batspeed");
 					int normVelocity = normalizeRating(pitcher1.getVelocity());
 					int normMovement = normalizeRating(pitcher1.getMovement());
-					int contact = 0;
-					if(location[0] < 0 || location[1] < 0) {
-						contact = 50+(location[0]/2);
-					}
-					if(location[0] > 20) {
-						contact = 50-(location[0]-20/2);
-					}
-					if(location[1] > 26) {
-						contact = 50-(location[0]-26/2);
-					}
-					if(location[0] < 0 || location[0] > 20 || location[1] < 0 || location[1] > 26) {
-						contact = 50;
-					}
-					if(location[0] < 8 || location[0] > 12 || location[1] < 10 || location[1] > 16) {
-						contact = 80;
-					}
-					else {
-						contact = 90;
-					}
+					int contact = 80 - Math.abs(10-location[0]) - Math.abs(13-location[1]);
 					boolean caught = false;
 					boolean hr = false;
 					String[] outcome = new String[2];
@@ -987,9 +967,8 @@ public class Game {
 					else if(pitch.equals("Curveball") || pitch.equals("4-seamer") || pitch.equals("Knuckleball")) {
 						contact = contact - 3;
 					}
-					if(c <= contact + ((scale(contactSplit, 1, 60, 0, 26) - 13)) + (scale(recogSplit, 1, 60, 0, 14 - 7)) 
-							+ (scale(powerSplit, 1, 60, 0, 10 - 5)) - (scale(normVelocity, 1, 60, 0, 24 - 12)) 
-							- (scale(normMovement, 1, 60, 0, 24 - 12))) {
+					if(c <= contact + scale(contactSplit, 1, 99, -50, 50) + (scale(recogSplit, 1, 60, -5, 5)) - (scale(normVelocity, 1, 60, -20, 20))
+					   - (scale(normMovement, 1, 60, -15, 15)) - (pitcher1.getPitchSize()-1)*3) {
 						BattedBall battedBall = outCome(pitch, location, pitcher1, lineup2.get(index2.get(lineupCount2)));
 						//foul
 						if(battedBall.getFoul() == true) {
@@ -1012,6 +991,10 @@ public class Game {
 								}
 								else {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " fouls out!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("FL");
+									pitcher1.setOutcome("FL");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									outs++;
 									lineupCount2++;
 									balls = 0;
@@ -1020,9 +1003,9 @@ public class Game {
 										lineupCount2 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = false;
-										break;
+										top = !top;										
 									}
 									continue;
 								}													
@@ -1039,6 +1022,10 @@ public class Game {
 								}
 								else {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " fouls out!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("FL");
+									pitcher1.setOutcome("FL");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									outs++;										
 									lineupCount2++;
 									balls = 0;
@@ -1047,9 +1034,9 @@ public class Game {
 										lineupCount2 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = false;
-										break;
+										top = !top;
 									}
 									continue;
 								}
@@ -1060,6 +1047,10 @@ public class Game {
 							outcome = hitOutcome(battedBall, lineup1, lineup2.get(index2.get(lineupCount2)));
 							if(outcome[0].equals("Caught")) {
 								System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " grounds out!");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("GO");
+								pitcher1.setOutcome("GO");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+								pitcher1.setOutcome("PA");
 								outs++;
 								lineupCount2++;
 								balls = 0;
@@ -1068,14 +1059,18 @@ public class Game {
 									lineupCount2 = 0;
 								}
 								if(outs == 3) {
+									System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 									outs = 0;							
-									top = false;
-									break;
+									top = !top;
 								}
 								continue;
 							}
 							else {
 								System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a single!");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("1B");
+								pitcher1.setOutcome("1B");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+								pitcher1.setOutcome("PA");
 								first[0] = lineup2.get(index2.get(lineupCount2)).getName();
 								first[1] = lineup2.get(index2.get(lineupCount2)).getPosition();
 								strikes = 0;
@@ -1089,6 +1084,10 @@ public class Game {
 						else if(battedBall.getType().equals("Flyball")) {
 							hr = checkHR(battedBall, lineup2.get(index2.get(lineupCount2)));							
 							if(hr == true) {
+								lineup2.get(index2.get(lineupCount2)).setOutcome("HR");
+								pitcher1.setOutcome("HR");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+								pitcher1.setOutcome("PA");
 								lineupCount2++;
 								if(lineupCount2 == 9) {
 									lineupCount2 = 0;
@@ -1100,6 +1099,10 @@ public class Game {
 								outcome = hitOutcome(battedBall, lineup1, lineup2.get(index2.get(lineupCount2)));
 								if(outcome[0].equals("Caught")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " flies out!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("FO");
+									pitcher1.setOutcome("FO");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									outs++;
 									lineupCount2++;
 									balls = 0;
@@ -1108,14 +1111,18 @@ public class Game {
 										lineupCount2 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = false;
-										break;
+										top = !top;
 									}
 									continue;
 								}
 								else if(outcome[0].equals("1B")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a single!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("1B");
+									pitcher1.setOutcome("1B");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									lineupCount2++;
 									if(lineupCount2 == 9) {
 										lineupCount2 = 0;
@@ -1125,6 +1132,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("2B")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a double!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("2B");
+									pitcher1.setOutcome("2B");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									lineupCount2++;
 									if(lineupCount2 == 9) {
 										lineupCount2 = 0;
@@ -1134,15 +1145,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("3B")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a triple!");
-									lineupCount2++;
-									if(lineupCount2 == 9) {
-										lineupCount2 = 0;
-									}
-									strikes = 0;
-									balls = 0;
-								}
-								else if(outcome[0].equals("HR")) {
-									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a home run!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("3B");
+									pitcher1.setOutcome("3B");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									lineupCount2++;
 									if(lineupCount2 == 9) {
 										lineupCount2 = 0;
@@ -1155,6 +1161,10 @@ public class Game {
 						else if(battedBall.getType().equals("Liner")) {
 							hr = checkHR(battedBall, lineup2.get(index2.get(lineupCount2)));							
 							if(hr == true) {
+								lineup2.get(index2.get(lineupCount2)).setOutcome("HR");
+								pitcher1.setOutcome("HR");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+								pitcher1.setOutcome("PA");
 								lineupCount2++;
 								if(lineupCount2 == 9) {
 									lineupCount2 = 0;
@@ -1166,6 +1176,10 @@ public class Game {
 								outcome = hitOutcome(battedBall, lineup1, lineup2.get(index2.get(lineupCount2)));
 								if(outcome[0].equals("Caught")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " lines out!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("LO");
+									pitcher1.setOutcome("LO");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									outs++;
 									lineupCount2++;
 									balls = 0;
@@ -1174,14 +1188,18 @@ public class Game {
 										lineupCount2 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = false;
-										break;
+										top = !top;
 									}
 									continue;
 								}
 								else if(outcome[0].equals("1B")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a single!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("1B");
+									pitcher1.setOutcome("1B");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									lineupCount2++;
 									if(lineupCount2 == 9) {
 										lineupCount2 = 0;
@@ -1191,6 +1209,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("2B")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a double!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("2B");
+									pitcher1.setOutcome("2B");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									lineupCount2++;
 									if(lineupCount2 == 9) {
 										lineupCount2 = 0;
@@ -1200,15 +1222,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("3B")) {
 									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a triple!");
-									lineupCount2++;
-									if(lineupCount2 == 9) {
-										lineupCount2 = 0;
-									}
-									strikes = 0;
-									balls = 0;
-								}
-								else if(outcome[0].equals("HR")) {
-									System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " hits a home run!");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("3B");
+									pitcher1.setOutcome("3B");
+									lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+									pitcher1.setOutcome("PA");
 									lineupCount2++;
 									if(lineupCount2 == 9) {
 										lineupCount2 = 0;
@@ -1222,6 +1239,10 @@ public class Game {
 							outcome = hitOutcome(battedBall, lineup1, lineup2.get(index2.get(lineupCount2)));
 							if(outcome[0].equals("Caught")) {
 								System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " pops out!");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("PO");
+								pitcher1.setOutcome("PO");
+								lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+								pitcher1.setOutcome("PA");
 								outs++;
 								lineupCount2++;
 								balls = 0;
@@ -1230,9 +1251,9 @@ public class Game {
 									lineupCount2 = 0;
 								}
 								if(outs == 3) {
+									System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
 									outs = 0;							
-									top = false;
-									break;
+									top = !top;
 								}
 								continue;
 							}
@@ -1240,10 +1261,9 @@ public class Game {
 					}
 					//no contact
 					else {
-						//check for wild pitch
-						System.out.println(scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 0, 10));
-						if(r.nextInt(100) > 98 - (Math.abs(10-location[0])/5) - (Math.abs(13-location[1])/5) + scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 0, 20)) {
-							if(location[0] < -24 || location[0] > 44 || location[1] > 62) {
+						//check for wild pitch						
+						if(r.nextInt(100) > 99 - (Math.abs(10-location[0])/4) - (Math.abs(13-location[1])/4) + scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 2, 20)) {
+							if(location[0] < -24 || location[0] > 44 || location[1] > 62 || location[1] < -24) {
 								System.out.println("Wild pitch!");
 							}
 							else {
@@ -1261,13 +1281,22 @@ public class Game {
 						System.out.println("swinging strike " + strikes);
 						if(strikes == 3) {
 							System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " strikes out!");
+							lineup2.get(index2.get(lineupCount2)).setOutcome("K");
+							pitcher1.setOutcome("K");
+							lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+							pitcher1.setOutcome("PA");
 							outs++;
 							lineupCount2++;
+							balls = 0;
+							strikes = 0;
 							if(lineupCount2 == 9) {
 								lineupCount2 = 0;
 							}
-							balls = 0;
-							strikes = 0;
+							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
+								outs = 0;							
+								top = !top;
+							}
 						}
 						continue;
 					}
@@ -1275,8 +1304,7 @@ public class Game {
 				//no swing
 				else {
 					//check for wild pitch
-					System.out.println(scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 0, 20));
-					if(r.nextInt(100) > 98 - (Math.abs(10-location[0])/5) - (Math.abs(13-location[1])/5) + scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 0, 20)) {
+					if(r.nextInt(100) > 99 - (Math.abs(10-location[0])/4) - (Math.abs(13-location[1])/4) + scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 2, 20)) {
 						if(location[0] < -24 || location[0] > 44 || location[1] > 62) {
 							System.out.println("Wild pitch!");
 						}
@@ -1296,6 +1324,10 @@ public class Game {
 						System.out.println("ball " + balls);
 						if(balls == 4) {
 							System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " walks!");	
+							lineup2.get(index2.get(lineupCount2)).setOutcome("BB");
+							pitcher1.setOutcome("BB");
+							lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+							pitcher1.setOutcome("PA");
 							lineupCount2++;
 							if(lineupCount2 == 9) {
 								lineupCount2 = 0;
@@ -1310,6 +1342,10 @@ public class Game {
 						System.out.println("strike " + strikes);
 						if(strikes == 3) {
 							System.out.println(lineup2.get(index2.get(lineupCount2)).getName() + " strikes out looking!");
+							lineup2.get(index2.get(lineupCount2)).setOutcome("K");
+							pitcher1.setOutcome("K");
+							lineup2.get(index2.get(lineupCount2)).setOutcome("PA");
+							pitcher1.setOutcome("PA");
 							outs++;
 							lineupCount2++;
 							if(lineupCount2 == 9) {
@@ -1317,20 +1353,17 @@ public class Game {
 							}
 							balls = 0;
 							strikes = 0;
+							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ bottom of the inning ~~~~~~~~~~~~~~~~~");
+								outs = 0;							
+								top = !top;
+							}
 						}
 						continue;
 					}
 				}
 			}			
-			while(top == false) {
-				try
-				{
-				    Thread.sleep(5000);
-				}
-				catch(InterruptedException ex)
-				{
-				    Thread.currentThread().interrupt();
-				}
+			while(top == false) {				
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				pitcher2.printOut();
 				lineup1.get(index1.get(lineupCount1)).printOut();
@@ -1339,8 +1372,8 @@ public class Game {
 					int p = (int) Math.round(Math.random()*10);
 					if(p == 5) {
 						int pick = (int) Math.round(Math.random()*100);
-						if(pick > (49 - (normalizeRating(pitcher1.getPickoff())/4) + (normalizeRating(lineup2.get(first[1]).getSpeed())/4) - (team2.getStealing()/2))
-								   && pick < (51 + (normalizeRating(pitcher1.getPickoff())/4) - (normalizeRating(lineup2.get(first[1]).getSpeed()))/4) + (team2.getStealing()/2)) {		
+						if(pick > (49 - (normalizeRating(pitcher2.getPickoff())/4) + (normalizeRating(lineup2.get(first[1]).getSpeed())/4) - (team2.getStealing()/2))
+						   && pick < (51 + (normalizeRating(pitcher2.getPickoff())/4) - (normalizeRating(lineup2.get(first[1]).getSpeed()))/4) + (team2.getStealing()/2)) {		
 							System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " gets picked off!");
 							outs++;
 							lineupCount1++;
@@ -1349,8 +1382,9 @@ public class Game {
 							}
 							if(outs == 3) {
 								outs = 0;							
-								top = true;
-								break;
+								top = !top;
+								System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
+								continue;
 							}
 						}
 					}
@@ -1359,8 +1393,8 @@ public class Game {
 				String pitch = pitcher2.getPitch(balls, strikes, lineup1.get(index1.get(lineupCount1)));
 				Integer[] location = getLocation(pitch).clone();
 				Random r = new Random();
-				int xMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher1.getControl()));						
-				int yMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher1.getControl()));
+				int xMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher2.getControl()));						
+				int yMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher2.getControl()));
 				if(pitch.equals("4-seamer") || pitch.equals("2-seamer") || pitch.equals("Cutter") || pitch.equals("Sinker")) {
 					xMiss = (int) Math.round(xMiss*0.67);
 					yMiss = (int) Math.round(yMiss*0.67);
@@ -1443,11 +1477,12 @@ public class Game {
 							first[0] = "";
 							first[1] = "";	
 							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 								outs = 0;	
 								balls = 0;
 								strikes = 0;
-								top = false;
-								break;
+								top = !top;
+								continue;
 							}
 						}		
 						else { 
@@ -1469,11 +1504,12 @@ public class Game {
 							first[0] = "";
 							first[1] = "";
 							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 								outs = 0;	
 								balls = 0;
 								strikes = 0;
-								top = false;
-								break;
+								top = !top;								
+								continue;
 							}
 						}		
 						else { 
@@ -1489,49 +1525,34 @@ public class Game {
 				int recogRating = platoonEffect(normalizeRating(lineup1.get(index1.get(lineupCount1)).getRecognition()), 
 						lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "recognition");
 				int deceptRating = normalizeRating(pitcher2.getDeception());
-				int veloRating = normalizeRating(pitcher1.getVelocity());
-				int moveRating = normalizeRating(pitcher1.getMovement());
-				int aggressRating = normalizeRating(lineup2.get(index2.get(lineupCount2)).getAggression());					
+				int veloRating = normalizeRating(pitcher2.getVelocity());
+				int moveRating = normalizeRating(pitcher2.getMovement());
+				int aggressRating = normalizeRating(lineup1.get(index1.get(lineupCount1)).getAggression());					
 				boolean swung = false;
 				if(ball == true) {
-					if(s <= threshold - (scale(recogRating, 1, 60, 0, 60) - 30) + (scale(deceptRating, 1, 60, 0, 16 - 8)) 
-					   + (scale(veloRating, 1, 60, 0, 12 - 6)) + (scale(moveRating, 1, 60, 0, 30 - 15)) + (scale(aggressRating, 2, 57, 0, 12) - 6) + (pitcher1.getPitchSize()-1)*3) {
+					if(s <= threshold - (scale(recogRating, 1, 60, -20, 30)) + (scale(deceptRating, 1, 60, -5, 5)) 
+					   + (scale(veloRating, 1, 60, -5, 5)) + (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
 						swung = true;
 					}
 				}
 				else {
-					if(s <= threshold + (scale(recogRating, 1, 60, 0, 60) - 30) - (scale(deceptRating, 1, 60, 0, 16 - 8)) 
-					   - (scale(veloRating, 1, 60, 0, 12 - 6)) - (scale(moveRating, 1, 60, 0, 30 - 15)) + (scale(aggressRating, 2, 57, 0, 12) - 6) - (pitcher1.getPitchSize()-1)*3) {
+					if(s <= threshold + (scale(recogRating, 1, 60, -20, 30)) - (scale(deceptRating, 1, 60, -5, 5)) 
+					   - (scale(veloRating, 1, 60, -5, 5)) - (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
 						swung = true;
 					}
 				}
 				if(swung == true) {
 					//swung, contact roll
 					int c = (int) Math.round(Math.random() * 100);
-					int contactSplit = platoonEffect(normalizeRating(lineup1.get(index1.get(lineupCount1)).getContact()), 
+					int contactSplit = platoonEffect(lineup1.get(index1.get(lineupCount1)).getContact(), 
 							lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "contact");
 					int recogSplit = platoonEffect(normalizeRating(lineup1.get(index1.get(lineupCount1)).getRecognition()), 
 							lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "recognition");
 					int powerSplit = platoonEffect(normalizeRating(lineup1.get(index1.get(lineupCount1)).getPower()),
-							lineup1.get(index1.get(lineupCount1)), pitcher1, pitch, "batspeed");
+							lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "batspeed");
 					int normVelocity = normalizeRating(pitcher2.getVelocity());
 					int normMovement = normalizeRating(pitcher2.getMovement());
-					int contact = 0;
-					if(location[0] < 0 || location[1] < 0) {
-						contact = 50+(location[0]/2);
-					}
-					if(location[0] > 20) {
-						contact = 50-(location[0]-20/2);
-					}
-					if(location[1] > 26) {
-						contact = 50-(location[0]-26/2);
-					}
-					if(location[0] < 8 || location[0] > 12 || location[1] < 10 || location[1] > 16) {
-						contact = 75;
-					}
-					else {
-						contact = 90;
-					}
+					int contact = 80 - Math.abs(10-location[0]) - Math.abs(13-location[1]);
 					boolean caught = false;
 					boolean hr = false;
 					String[] outcome = new String[2];
@@ -1541,8 +1562,8 @@ public class Game {
 					else if(pitch.equals("Curveball") || pitch.equals("4-seamer") || pitch.equals("Knuckleball")) {
 						contact = contact - 3;
 					}
-					if(c <= contact + ((scale(contactSplit, 1, 60, 0, 32) - 16)) + (scale(recogSplit, 1, 60, 0, 14 - 7)) 
-							- (scale(normVelocity, 1, 60, 0, 32 - 16)) - (scale(normMovement, 1, 60, 0, 14 - 7))) {
+					if(c <= contact + scale(contactSplit, 1, 99, -50, 50) + (scale(recogSplit, 1, 60, -5, 5)) - (scale(normVelocity, 1, 60, -20, 20))
+					   - (scale(normMovement, 1, 60, -15, 15)) - (pitcher1.getPitchSize()-1)*3) {
 						BattedBall battedBall = outCome(pitch, location, pitcher2, lineup1.get(index1.get(lineupCount1)));
 						//foul
 						if(battedBall.getFoul() == true) {
@@ -1565,6 +1586,10 @@ public class Game {
 								}
 								else {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " fouls out!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("FO");
+									pitcher2.setOutcome("FO");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									outs++;
 									lineupCount1++;
 									balls = 0;
@@ -1573,9 +1598,9 @@ public class Game {
 										lineupCount1 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = true;
-										break;
+										top = !top;
 									}
 									continue;
 								}
@@ -1592,6 +1617,10 @@ public class Game {
 								}
 								else {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " fouls out!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("FO");
+									pitcher2.setOutcome("FO");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									outs++;										
 									lineupCount1++;
 									balls = 0;
@@ -1600,9 +1629,9 @@ public class Game {
 										lineupCount1 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = true;
-										break;
+										top = !top;
 									}
 									continue;
 								}
@@ -1613,6 +1642,10 @@ public class Game {
 							outcome = hitOutcome(battedBall, lineup2, lineup1.get(index1.get(lineupCount1)));
 							if(outcome[0].equals("Caught")) {
 								System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " grounds out!");
+								lineup1.get(index1.get(lineupCount1)).setOutcome("GO");
+								pitcher2.setOutcome("GO");
+								lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+								pitcher2.setOutcome("PA");
 								outs++;
 								lineupCount1++;
 								balls = 0;
@@ -1621,9 +1654,9 @@ public class Game {
 									lineupCount1 = 0;
 								}
 								if(outs == 3) {
+									System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 									outs = 0;							
-									top = true;
-									break;
+									top = !top;
 								}
 								continue;
 							}
@@ -1642,6 +1675,10 @@ public class Game {
 						else if(battedBall.getType().equals("Flyball")) {
 							hr = checkHR(battedBall, lineup1.get(index1.get(lineupCount1)));						
 							if(hr == true) {
+								lineup1.get(index1.get(lineupCount1)).setOutcome("HR");
+								pitcher2.setOutcome("HR");
+								lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+								pitcher2.setOutcome("PA");
 								lineupCount1++;
 								if(lineupCount1 == 9) {
 									lineupCount1 = 0;
@@ -1653,6 +1690,10 @@ public class Game {
 								outcome = hitOutcome(battedBall, lineup2, lineup1.get(index1.get(lineupCount1)));
 								if(outcome[0].equals("Caught")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " flies out!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("FO");
+									pitcher2.setOutcome("FO");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									outs++;
 									lineupCount1++;
 									balls = 0;
@@ -1661,14 +1702,18 @@ public class Game {
 										lineupCount1 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = true;
-										break;
+										top = !top;
 									}
 									continue;
 								}
 								else if(outcome[0].equals("1B")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a single!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("1B");
+									pitcher2.setOutcome("1B");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
 									lineupCount1++;
 									if(lineupCount1 == 9) {
@@ -1677,6 +1722,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("2B")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a double!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("2B");
+									pitcher2.setOutcome("2B");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
 									lineupCount1++;
 									if(lineupCount1 == 9) {
@@ -1685,14 +1734,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("3B")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a triple!");
-									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
-									lineupCount1++;
-									if(lineupCount1 == 9) {
-										lineupCount1 = 0;
-									}
-								}
-								else if(outcome[0].equals("HR")) {
-									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a home run!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("3B");
+									pitcher2.setOutcome("3B");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
 									lineupCount1++;
 									if(lineupCount1 == 9) {
@@ -1704,6 +1749,10 @@ public class Game {
 						else if(battedBall.getType().equals("Liner")) {
 							hr = checkHR(battedBall, lineup1.get(index1.get(lineupCount1)));
 							if(hr == true) {
+								lineup1.get(index1.get(lineupCount1)).setOutcome("HR");
+								pitcher2.setOutcome("HR");
+								lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+								pitcher2.setOutcome("PA");
 								lineupCount1++;
 								if(lineupCount1 == 9) {
 									lineupCount1 = 0;
@@ -1715,6 +1764,10 @@ public class Game {
 								outcome = hitOutcome(battedBall, lineup2, lineup1.get(index1.get(lineupCount1)));
 								if(outcome[0].equals("Caught")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " lines out!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("LO");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
+									pitcher2.setOutcome("LO");
 									outs++;
 									lineupCount1++;
 									balls = 0;
@@ -1723,14 +1776,18 @@ public class Game {
 										lineupCount1 = 0;
 									}
 									if(outs == 3) {
+										System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 										outs = 0;							
-										top = true;
-										break;
+										top = !top;
 									}
 									continue;
 								}
 								else if(outcome[0].equals("1B")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a single!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("1B");
+									pitcher2.setOutcome("1B");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
 									lineupCount1++;
 									if(lineupCount1 == 9) {
@@ -1739,6 +1796,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("2B")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a double!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("2B");
+									pitcher2.setOutcome("2B");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
 									lineupCount1++;
 									if(lineupCount1 == 9) {
@@ -1747,14 +1808,10 @@ public class Game {
 								}
 								else if(outcome[0].equals("3B")) {
 									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a triple!");
-									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
-									lineupCount1++;
-									if(lineupCount1 == 9) {
-										lineupCount1 = 0;
-									}
-								}
-								else if(outcome[0].equals("HR")) {
-									System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " hits a home run!");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("3B");
+									pitcher2.setOutcome("3B");
+									lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+									pitcher2.setOutcome("PA");
 									baseRunning(lineup1, lineup2, index1, lineupCount1, outcome);
 									lineupCount1++;
 									if(lineupCount1 == 9) {
@@ -1767,6 +1824,10 @@ public class Game {
 							outcome = hitOutcome(battedBall, lineup2, lineup1.get(index1.get(lineupCount1)));
 							if(outcome[0].equals("Caught")) {
 								System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " pops out!");
+								lineup1.get(index1.get(lineupCount1)).setOutcome("PO");
+								pitcher2.setOutcome("PO");
+								lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+								pitcher2.setOutcome("PA");
 								outs++;
 								lineupCount1++;
 								balls = 0;
@@ -1775,9 +1836,9 @@ public class Game {
 									lineupCount1 = 0;
 								}
 								if(outs == 3) {
+									System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 									outs = 0;							
-									top = true;
-									break;
+									top = !top;
 								}
 								continue;
 							}
@@ -1786,8 +1847,7 @@ public class Game {
 					//no contact
 					else {
 						//check for wild pitch
-						System.out.println(scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 0, 20));
-						if(r.nextInt(100) > 98 - (Math.abs(10-location[0])/5) - (Math.abs(13-location[1])/5) + scale(normalizeRating(lineup1.get("C").getHands()), 1, 60, 0, 20)) {
+						if(r.nextInt(100) > 99 - (Math.abs(10-location[0])/4) - (Math.abs(13-location[1])/4) + scale(normalizeRating(lineup1.get("C").getHands()), 1, 60, 2, 20)) {
 							if(location[0] < -24 || location[0] > 44 || location[1] > 62) {
 								System.out.println("Wild pitch!");
 							}
@@ -1806,6 +1866,10 @@ public class Game {
 						System.out.println("swinging strike " + strikes);
 						if(strikes == 3) {
 							System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " strikes out!");
+							lineup1.get(index1.get(lineupCount1)).setOutcome("K");
+							pitcher2.setOutcome("K");
+							lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+							pitcher2.setOutcome("PA");
 							outs++;
 							lineupCount1++;
 							if(lineupCount1 == 9) {
@@ -1814,9 +1878,9 @@ public class Game {
 							balls = 0;
 							strikes = 0;
 							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 								outs = 0;							
-								top = true;
-								break;
+								top = !top;
 							}
 						}
 						continue;
@@ -1825,8 +1889,7 @@ public class Game {
 				//no swing
 				else {
 					//check for wild pitch
-					System.out.println(scale(normalizeRating(lineup2.get("C").getHands()), 1, 60, 0, 20));
-					if(r.nextInt(100) > 98 - (Math.abs(10-location[0])/5) - (Math.abs(13-location[1])/5) + scale(normalizeRating(lineup1.get("C").getHands()), 1, 60, 0, 20)) {
+					if(r.nextInt(100) > 99 - (Math.abs(10-location[0])/4) - (Math.abs(13-location[1])/4) + scale(normalizeRating(lineup1.get("C").getHands()), 1, 60, 2, 20)) {
 						if(location[0] < -24 || location[0] > 44 || location[1] > 62) {
 							System.out.println("Wild pitch!");
 						}
@@ -1843,9 +1906,14 @@ public class Game {
 					}
 					if(location[0] < 0 || location[0] > 20 || location[1] < 0 || location[1] > 26) {
 						balls++;
-						System.out.println("ball " + balls);
+						System.out.println("ball " + balls);						
 						if(balls == 4) {
 							System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " walks!");	
+							lineup1.get(index1.get(lineupCount1)).setOutcome("BB");
+							pitcher2.setOutcome("BB");
+							lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+							pitcher2.setOutcome("PA");
+							pitcher2.setOutcome("Innings");
 							lineupCount1++;
 							if(lineupCount1 == 9) {
 								lineupCount1 = 0;
@@ -1853,9 +1921,9 @@ public class Game {
 							balls = 0;
 							strikes = 0;
 							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 								outs = 0;							
-								top = true;
-								break;
+								top = !top;
 							}
 						}
 						continue;
@@ -1865,6 +1933,11 @@ public class Game {
 						System.out.println("strike " + strikes);
 						if(strikes == 3) {
 							System.out.println(lineup1.get(index1.get(lineupCount1)).getName() + " strikes out looking!");
+							lineup1.get(index1.get(lineupCount1)).setOutcome("K");
+							pitcher2.setOutcome("K");
+							lineup1.get(index1.get(lineupCount1)).setOutcome("PA");
+							pitcher2.setOutcome("PA");
+							pitcher2.setOutcome("Innings");
 							outs++;							
 							lineupCount1++;
 							if(lineupCount1 == 9) {
@@ -1873,9 +1946,9 @@ public class Game {
 							balls = 0;
 							strikes = 0;
 							if(outs == 3) {
+								System.out.println("~~~~~~~~~~~~~~~~ top of the inning ~~~~~~~~~~~~~~~~~");
 								outs = 0;							
-								top = true;
-								break;
+								top = !top;
 							}
 						}
 						continue;

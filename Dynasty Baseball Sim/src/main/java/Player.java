@@ -45,6 +45,7 @@ public class Player {
 	private int scoutability;
 	HashMap <String, String> posFormulae = new HashMap<String, String>();
 	HashMap <String, String> posAdjustments = new HashMap<String, String>();
+	HashMap <String, Double> outcomes = new HashMap<String, Double>();
 	
 	public String getName() {
 		return this.name;
@@ -136,9 +137,50 @@ public class Player {
 		}
 	}
 	
+	public void printLine() {
+		printOut();	
+		System.out.println("PA: " + outcomes.get("PA"));
+		System.out.println("1B: " + outcomes.get("1B"));
+		System.out.println("2B: " + outcomes.get("2B"));
+		System.out.println("3B: " + outcomes.get("3B"));
+		System.out.println("HR: " + outcomes.get("HR"));
+		double k = (outcomes.get("K")/outcomes.get("PA"))*100;		
+		System.out.println("K%: " + k);
+		double bb = (outcomes.get("BB")/outcomes.get("PA"))*100;
+		System.out.println("BB%: " + bb);
+		double average = (outcomes.get("1B") + outcomes.get("2B") + outcomes.get("3B") + outcomes.get("HR"))/outcomes.get("PA");
+		System.out.println("Average: " + average);
+		double obp = (outcomes.get("1B") + outcomes.get("2B") + outcomes.get("3B") + outcomes.get("HR") + outcomes.get("BB"))/outcomes.get("PA");
+		System.out.println("OBP: " + obp);
+		double slg = (outcomes.get("1B") + (2*outcomes.get("2B")) + (3*outcomes.get("3B")) + (4*outcomes.get("HR")))/outcomes.get("PA");
+		System.out.println("SLG: " + slg);
+		double ops = obp + slg;
+		System.out.println("OPS: " + ops);
+		double gofo = outcomes.get("GO")/outcomes.get("FO");
+		System.out.println("GB/FB: " + gofo);
+	}
+	
+	public void setOutcome(String type) {
+		outcomes.put(type, outcomes.get(type)+1);
+	}
+	
 	//constructor
 	public Player(String pos) {
 		this.position = pos;
+		outcomes.put("PA", 0.0);
+		outcomes.put("1B", 0.0);
+		outcomes.put("2B", 0.0);
+		outcomes.put("3B", 0.0);
+		outcomes.put("HR", 0.0);
+		outcomes.put("BB", 0.0);
+		outcomes.put("K", 0.0);
+		outcomes.put("SB", 0.0);
+		outcomes.put("CS", 0.0);
+		outcomes.put("GO", 0.0);
+		outcomes.put("FO", 0.0);
+		outcomes.put("LO", 0.0);
+		outcomes.put("FF", 0.0);
+		outcomes.put("FL", 0.0);
 		ArrayList<String> firstNames = new ArrayList<String>();
 		Random r = new Random();
 		try {
@@ -203,7 +245,7 @@ public class Player {
 		}
 		this.potPower = setPotential();	
 		this.potContact = setPotential();
-		this.potSwing = setPotential();
+		this.potSwing = (int) Math.round((r.nextGaussian()*15) + 50);
 		this.potAggression = setPotential();
 		this.potRecognition = setPotential();
 		this.potSpeed = setPotential();

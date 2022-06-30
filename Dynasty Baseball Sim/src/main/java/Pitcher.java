@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Pitcher {
@@ -43,9 +44,11 @@ public class Pitcher {
 	private int peak;
 	private int greed;
 	private int handedness;
+	private int mphVelocity;
 	private String batting;
 	private String throwing;
 	private int scoutability;
+	HashMap <String, Double> outcomes = new HashMap<String, Double>();
 	
 	public String getHand() {
 		return this.throwing;
@@ -57,6 +60,10 @@ public class Pitcher {
 	
 	public int getVelocity() {
 		return this.potVelocity;
+	}
+	
+	public double getVelo() {		
+		return this.mphVelocity;
 	}
 	
 	public int getMovement() {
@@ -175,7 +182,7 @@ public class Pitcher {
 	
 	public void printOut() {
 		System.out.println(name + ": pitcher");
-		System.out.println("PO " + potVelocity + " FI " + potMovement + " CO " + potControl  + " SY " + potDeception + " EN " + potEndurance);
+		System.out.println("PO " + potVelocity + " FI " + potMovement + " CO " + potControl  + " SY " + potDeception + " EN " + potEndurance + ", " + mphVelocity + " mph fastball");
 		String pitches = pitchTypes.get(0) + ", ";
 		for(int i = 1; i < pitchTypes.size(); i++) {
 			pitches = pitches + pitchTypes.get(i);
@@ -186,8 +193,52 @@ public class Pitcher {
 		System.out.println(pitches);
 	}
 	
+	public void printLine() {
+		printOut();
+		double innings = outcomes.get("PA")/3;
+		System.out.println("Innings: " + innings);
+		System.out.println("PA: " + outcomes.get("PA"));
+		System.out.println("1B: " + outcomes.get("1B"));
+		System.out.println("1B: " + outcomes.get("2B"));
+		System.out.println("1B: " + outcomes.get("3B"));
+		System.out.println("HR: " + outcomes.get("HR"));
+		double k = (outcomes.get("K")/outcomes.get("PA"))*100;		
+		System.out.println("K%: " + k);
+		double bb = (outcomes.get("BB")/outcomes.get("PA"))*100;
+		System.out.println("BB%: " + bb);
+		double average = (outcomes.get("1B") + outcomes.get("2B") + outcomes.get("3B") + outcomes.get("HR"))/outcomes.get("PA");
+		System.out.println("Average: " + average);
+		double obp = (outcomes.get("1B") + outcomes.get("2B") + outcomes.get("3B") + outcomes.get("HR") + outcomes.get("BB"))/outcomes.get("PA");
+		System.out.println("OBP: " + obp);
+		double slg = (outcomes.get("1B") + (2*outcomes.get("2B")) + (3*outcomes.get("3B")) + (4*outcomes.get("HR")))/outcomes.get("PA");
+		System.out.println("SLG: " + slg);
+		double ops = obp + slg;
+		System.out.println("OPS: " + ops);
+		double gofo = outcomes.get("GO")/outcomes.get("FO");		
+		System.out.println("GB/FB: " + gofo);
+	}
+	
+	public void setOutcome(String type) {
+		outcomes.put(type, outcomes.get(type)+1);
+	}
+	
 	//constructor
 	public Pitcher () {
+		outcomes.put("Innings", 0.0);
+		outcomes.put("PA", 0.0);
+		outcomes.put("1B", 0.0);
+		outcomes.put("2B", 0.0);
+		outcomes.put("3B", 0.0);
+		outcomes.put("HR", 0.0);
+		outcomes.put("BB", 0.0);
+		outcomes.put("K", 0.0);
+		outcomes.put("SB", 0.0);
+		outcomes.put("CS", 0.0);
+		outcomes.put("GO", 0.0);
+		outcomes.put("FO", 0.0);
+		outcomes.put("LO", 0.0);
+		outcomes.put("FF", 0.0);
+		outcomes.put("FL", 0.0);
 		ArrayList<String> firstNames = new ArrayList<String>();
 		Random r = new Random();
 		try { 
@@ -250,7 +301,8 @@ public class Pitcher {
 		if(this.height > 219) {
 			this.height = 219;
 		}
-		this.potVelocity = setPotential();	
+		this.potVelocity = setPotential();		
+		this.mphVelocity = (int) Math.round((0.00151836*Math.pow(potVelocity, 2)) + (0.0168361*potVelocity) + 82.3);
 		this.potMovement = setPotential();
 		this.potControl = setPotential();
 		this.potDeception = setPotential();
@@ -286,7 +338,7 @@ public class Pitcher {
 		this.scoutability = setPotential();
 		Integer[] tempActual = new Integer[2];
 		tempActual[0] = this.age;
-		tempActual[1] = (int) Math.round(this.potVelocity - ((r.nextGaussian())*5) - ((26-this.age)*5));
+		tempActual[1] = (int) Math.round(this.potVelocity - ((r.nextGaussian())*5) - ((26-this.age)*5));		
 		this.actVelocity.add(tempActual);
 		tempActual[1] = (int) Math.round(this.potMovement - ((r.nextGaussian())*5) - ((26-this.age)*5));
 		this.actMovement.add(tempActual);

@@ -16,7 +16,7 @@ public class Team {
 	private Integer[] stadium = {330, 410, 330, 8, 8, 8};
 	private ArrayList<Player> hitters = new ArrayList<Player>();
 	private ArrayList<Pitcher> pitchers = new ArrayList<Pitcher>();
-	private int starter = 1;
+	private int starter = 0;
 	private String[] allocations = new String[4];
 	private ArrayList<Player> rhpLineup = new ArrayList<Player>();
 	private ArrayList<Player> lhpLineup = new ArrayList<Player>();
@@ -26,7 +26,12 @@ public class Team {
 	private int baserunning = 5;
 	
 	public Pitcher getStarter() {
-		return rotation.get(starter);
+		Pitcher tempPitcher = rotation.get(starter);
+		starter++;
+		if(starter == 5) {
+			starter = 0;
+		}
+		return tempPitcher;
 	}
 	
 	public Player getHitter(String name) {
@@ -37,6 +42,14 @@ public class Team {
 			}
 		}
 		return tempPlayer;
+	}
+	
+	public ArrayList<Player> getHitters() {
+		return hitters;
+	}
+	
+	public ArrayList<Pitcher> getPitchers() {
+		return pitchers;
 	}
 	
 	public ArrayList<Player> getRHP() {
@@ -112,7 +125,7 @@ public class Team {
 		}
 		Player tempCatcher2 = new Player("C");
 		hitters.add(tempCatcher2);
-		Player tempFirst = new Player("1B");
+		Player tempFirst = new Player("DH");
 		hitters.add(tempFirst);
 		rhpLineup.add(tempFirst);
 		lhpLineup.add(tempFirst);
