@@ -43,6 +43,7 @@ public class Player {
 	private String batting;
 	private String throwing;
 	private int scoutability;
+	private double ops;
 	HashMap <String, String> posFormulae = new HashMap<String, String>();
 	HashMap <String, String> posAdjustments = new HashMap<String, String>();
 	HashMap <String, Double> outcomes = new HashMap<String, Double>();
@@ -129,9 +130,13 @@ public class Player {
 		return salary;
 	}
 	
+	public double getOPS() {
+		return this.ops;
+	}
+	
 	public void printOut() {
 		if(!position.equals("x")) {
-			System.out.println(name + ": " + position);			
+			System.out.println(name + ": " + position + " | " + this.batting + "/" + this.throwing);			
 			System.out.println("DI " + potRecognition + " CN " + potContact + " SW " + potSwing  + " SL " + potPower);
 			System.out.println("SP " + potSpeed + " RA " + potReaction + " GL " + potHands  + " AR " + potArm);
 		}
@@ -154,7 +159,7 @@ public class Player {
 		System.out.println("OBP: " + obp);
 		double slg = (outcomes.get("1B") + (2*outcomes.get("2B")) + (3*outcomes.get("3B")) + (4*outcomes.get("HR")))/outcomes.get("PA");
 		System.out.println("SLG: " + slg);
-		double ops = obp + slg;
+		this.ops = obp + slg;
 		System.out.println("OPS: " + ops);
 		double gofo = outcomes.get("GO")/outcomes.get("FO");
 		System.out.println("GB/FB: " + gofo);
@@ -245,7 +250,13 @@ public class Player {
 		}
 		this.potPower = setPotential();	
 		this.potContact = setPotential();
-		this.potSwing = (int) Math.round((r.nextGaussian()*15) + 50);
+		this.potSwing =  (int) Math.round((r.nextGaussian()*15)+50);
+		if(potSwing > 99) {
+			potSwing = 99;
+		}
+		else if (potSwing < 1) {
+			potSwing = 1;
+		}
 		this.potAggression = setPotential();
 		this.potRecognition = setPotential();
 		this.potSpeed = setPotential();

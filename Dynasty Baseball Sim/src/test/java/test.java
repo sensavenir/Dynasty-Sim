@@ -3,7 +3,7 @@ public class test {
 
 	public static void main(String[] args) {
 		League league = new League("Test", 75, true, true, "Wheel", 8, "Average", true);
-		for(int i = 0; i < 500; i++) {
+		for(int i = 0; i < 22; i++) {
 			Game game = new Game(league.getTeam(0), league.getTeam(1));
 			Game game1 = new Game(league.getTeam(0), league.getTeam(2));
 			Game game2 = new Game(league.getTeam(0), league.getTeam(3));
@@ -33,13 +33,20 @@ public class test {
 			Game game31 = new Game(league.getTeam(5), league.getTeam(7));
 			Game game33 = new Game(league.getTeam(6), league.getTeam(7));
 		}
+		double hOPS = 0;
+		double pOPS = 0;
 		for(int a = 0; a < 8; a++) {
 			for(int i = 0; i < league.getTeam(0).getRHP().size(); i++) {
 				league.getTeam(a).getRHP().get(i).printLine();
+				hOPS = hOPS + league.getTeam(a).getRHP().get(i).getOPS();
 			}
 			for(int i = 0; i < 5; i++) {
 				league.getTeam(a).getStarter().printLine();
+				pOPS = pOPS + league.getTeam(a).getRHP().get(i).getOPS();
 			}
-		}		
+		}	
+		hOPS = hOPS/72;
+		pOPS = pOPS/40;
+		System.out.println(hOPS + " | " + pOPS);
 	}
 }

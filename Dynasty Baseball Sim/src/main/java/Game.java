@@ -37,15 +37,14 @@ public class Game {
 	private BattedBall outCome(String pitch, Integer[] location, Pitcher pitcher, Player hitter) {
 		int batSpeed = hitter.getPower();
 		int swing = hitter.getSwing();
-		int contact = hitter.getContact();
-		int velocity = normalizeRating(pitcher1.getVelocity());
-		int movement = normalizeRating(pitcher1.getMovement());		
+		int velocity = pitcher1.getVelocity();
+		int movement = pitcher1.getMovement();		
 		//roll for exit velocity, batted ball type and azimuth
 		int	outVelo = -16 + Math.abs(10 - location[0]);
 		outVelo = outVelo + Math.abs(13 - location[1]);
 		outVelo = (int) Math.round(outVelo/4);
 		Random d = new Random();			
-		double exitVelocity = (d.nextGaussian()*6) + (scale(batSpeed, 1, 99, 73, 88)) - (scale(movement, 1, 60, 0, 10));
+		double exitVelocity = (d.nextGaussian()*6) + (scale(batSpeed, 1, 99, 760, 930)/10) - (movement/10);
 		exitVelocity = exitVelocity - outVelo;
 		double azimuth = 0;
 		String bbType = "";
@@ -65,7 +64,7 @@ public class Game {
 		int launchAngle = 0;
 		for(int i = 0; i < 10; i++) {
 			if(pitch.equals(bbPitch[i][0])) {				
-				double count = 99 - Integer.parseInt(bbPitch[i][1]) + (location[1]) + (scale(swing, 1, 99, -15, 5)) - scale(movement, 1, 99, 0, 16);				
+				double count = 99 - Integer.parseInt(bbPitch[i][1]) + (location[1]) + (scale(swing, 1, 99, -10, 10)) - scale(movement, 1, 99, 0, 16);				
 				if(bb > count) {
 					bbType = "Groundball";
 					launchAngle = (int) Math.round((Math.random()*45) - 40);
@@ -77,10 +76,10 @@ public class Game {
 					launchAngle = (int) Math.round(Math.random()*20)+10;
 					break;
 				}
-				count = count - Integer.parseInt(bbPitch[i][3]) - (int) Math.round((((double) location[1] - 13)*0.8)) - (int) Math.round(((scale(swing, 1, 60, 0, 26) - 13)*0.8));
+				count = count - Integer.parseInt(bbPitch[i][3]) - (int) Math.round((((double) location[1] - 13)*0.8)) - (int) Math.round((scale(swing, 1, 99, -10, 10)*0.8));
 				if(bb > count) {
 					bbType = "Flyball";
-					launchAngle = (int) Math.round((Math.random()*30) + 25 + (scale(swing, 1, 99, 0, 15)) - (scale(movement, 1, 99, 0, 16)*0.8));
+					launchAngle = (int) Math.round((Math.random()*30) + 25 + (scale(swing, 1, 99, 0, 10)) - (scale(movement, 1, 99, 0, 12)));
 					break;
 				}
 				if(bb > count) {
@@ -133,12 +132,12 @@ public class Game {
 		System.out.println(azimuth*3 + ": azimuth");
 		double time = (2*(exitVelocity*0.44704)*Math.sin(Math.toRadians(launchAngle))/9.82);
 		//foul
-		double foulThresh = 31 + (scale(velocity, 1, 60, 0, 10) - 5);
+		double foulThresh = 31 + (scale(velocity, 1, 99, -5, 5));
 		if(pitch.equals("4-seamer")) {
-			foulThresh = foulThresh + 13 - (scale(batSpeed, 1, 60, 0, 20) - 10);
+			foulThresh = foulThresh + 13 - (scale(batSpeed, 1, 99, -10, 10));
 		}
 		else if(pitch.equals("2-seamer") || pitch.equals("Cutter") || pitch.equals("Slider")) {
-			foulThresh = foulThresh + 8 - (scale(batSpeed, 1, 60, 0, 16) - 8);
+			foulThresh = foulThresh + 8 - (scale(batSpeed, 1, 99, -8, 8));
 		}
 		int f = (int) Math.round(Math.random()*100);
 		boolean foul = false;
@@ -175,7 +174,7 @@ public class Game {
 		double xDef = pos[0]*Math.sin(Math.toRadians(pos[1]));
 		double yDef = pos[0]*Math.cos(Math.toRadians(pos[1]));
 		double ground2Cover = Math.sqrt(Math.pow(xBall - xDef, 2) + Math.pow(yBall - yDef, 2));
-		double defTime = r.nextGaussian()*scale(normalizeRating(60-defender.getReaction()), 1, 60, 0.5, 1.5) + ground2Cover/(r.nextGaussian() + scale(normalizeRating(defender.getDefense()), 1, 60, 15, 23));
+		double defTime = r.nextGaussian()*(scale(99-defender.getReaction(), 1, 99, 5, 15)/10) + ground2Cover/(r.nextGaussian() + (scale(defender.getDefense(), 1, 99, 130, 230)/10));
 		System.out.println(defender.getPosition() + " | Hang time: " + time + ", Route time: " + defTime);		
 		if(time >= defTime) {
 			caught = true;
@@ -253,70 +252,70 @@ public class Game {
 		if(bb.getType().equals("Groundball")) {
 			if(bb.getAzimuth() < 2) {
 				defender = lineup.get("3B");
-				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 450 - defense) {
+				int defense = defender.getDefense();
+				if(r.nextInt(1000) > 500 - defense + (bb.getVelo()-50)) {
 					caught = true;							
 				}
 			}
 			else if(bb.getAzimuth() < 5) {
 				defender = lineup.get("3B");
-				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 200 - defense) {
+				int defense = defender.getDefense();
+				if(r.nextInt(1000) > 250 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}					
 			}
 			else if(bb.getAzimuth() < 8) {
 				defender = lineup.get("3B");
-				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 200 - defense) {
+				int defense = defender.getDefense();
+				if(r.nextInt(1000) > 500 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}					
 				if(caught == false) {
 					defender = lineup.get("SS");
-					defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-					if(r.nextInt(1000) > 200 - defense) {
+					int defense2 = defender.getDefense();
+					if(r.nextInt(1000) > 500 - defense2 + (bb.getVelo()-50)) {
 						caught = true;
 					}						
 				}
 			}
 			else if (bb.getAzimuth() < 12) {
 				defender = lineup.get("SS");
-				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 200 - defense) {
+				int defense = defender.getDefense();
+				if(r.nextInt(1000) > 250 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}
 			}
 			else if (bb.getAzimuth() < 18) {
 				defender = lineup.get("SS");
-				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 850 - defense) {
+				int defense = defender.getDefense();
+				if(r.nextInt(1000) > 850 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}
 				if(caught == false) {
 					defender = lineup.get("2B");
-					defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-					if(r.nextInt(1000) > 850 - defense) {
+					int defense2 = defender.getDefense();
+					if(r.nextInt(1000) > 850 - defense2 + (bb.getVelo()-50)) {
 						caught = true;
 					}						
 				}
 			}
 			else if (bb.getAzimuth() < 23) {
 				defender = lineup.get("2B");
-				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 200 - defense) {
+				int defense = defender.getDefense();
+				if(r.nextInt(1000) > 250 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}
 			}		
 			else if (bb.getAzimuth() < 26) {
 				defender = lineup.get("2B");
-				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 200 - defense) {
+				int defense = defender.getDefense();
+				if(r.nextInt(1000) > 500 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}
 				if(caught == false) {
 					defender = lineup.get("1B");
-					defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-					if(r.nextInt(1000) > 633 - defense) {
+					int defense2 = defender.getDefense();
+					if(r.nextInt(1000) > 500 - defense2 + (bb.getVelo()-50)) {
 						caught = true;
 					}						
 				}
@@ -324,14 +323,14 @@ public class Game {
 			else if (bb.getAzimuth() < 29) {
 				defender = lineup.get("1B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 200 - defense) {
+				if(r.nextInt(1000) > 250 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}
 			}
 			else {
 				defender = lineup.get("1B");
 				int defense = normalizeRating(defender.getReaction()) + normalizeRating(defender.getSpeed());
-				if(r.nextInt(1000) > 450 - defense) {
+				if(r.nextInt(1000) > 500 - defense + (bb.getVelo()-50)) {
 					caught = true;
 				}
 			}
@@ -369,7 +368,7 @@ public class Game {
 			}
 			else if(bb.getType().equals("Flyball")) {
 				if(bb.getDistance() > positioning.get(defender.getPosition())[0]) {
-					if(r.nextInt(100) > 80 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9)) {
+					if(r.nextInt(100) > 80 + scale(defender.getArm(), 1, 99, 0, 19) - scale(batter.getSpeed(), 1, 99, 0, 19)) {
 						hit[0] = "3B";
 						hit[1] = defender.getPosition();
 					}
@@ -379,7 +378,7 @@ public class Game {
 					}
 				}
 				else {
-					if(r.nextInt(100) > 70 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9)- scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 10) ) {
+					if(r.nextInt(100) > 70 + scale(defender.getArm(), 1, 99, 0, 19) - scale(batter.getSpeed(), 1, 99, 0, 19)) {
 						hit[0] = "2B";
 						hit[1] = defender.getPosition();
 					}
@@ -391,11 +390,11 @@ public class Game {
 			}
 			else {
 				if(bb.getDistance() > positioning.get(defender.getPosition())[0]) {
-					if(r.nextInt(100) > 90 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
+					if(r.nextInt(100) > 90 + scale(defender.getArm(), 1, 99, 0, 19) - scale(batter.getSpeed(), 1, 99, 0, 19) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 80) {
 						hit[0] = "3B";
 						hit[1] = defender.getPosition();
 					}
-					else if(r.nextInt(100) > 70 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 9) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
+					else if(r.nextInt(100) > 70 + scale(defender.getArm(), 1, 99, 0, 19) - scale(batter.getSpeed(), 1, 99, 0, 19) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 80) {
 						hit[0] = "2B";
 						hit[1] = defender.getPosition();
 					}
@@ -405,7 +404,7 @@ public class Game {
 					}
 				}
 				else {
-					if(r.nextInt(100) > 67 + scale(normalizeRating(defender.getArm()), 1, 60, 0, 9) - scale(normalizeRating(batter.getSpeed()), 1, 60, 0, 10) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 75) {
+					if(r.nextInt(100) > 67 + scale(defender.getArm(), 1, 99, 0, 19) - scale(normalizeRating(batter.getSpeed()), 1, 99, 0, 19) - scale(bb.getVelo(), 65, 102, -18, 18) && bb.getVelo() > 80) {
 						hit[0] = "2B";
 						hit[1] = defender.getPosition();
 					}
@@ -798,8 +797,8 @@ public class Game {
 				String pitch = pitcher1.getPitch(balls, strikes, lineup2.get(index2.get(lineupCount2)));
 				Integer[] location = getLocation(pitch).clone();
 				Random r = new Random();
-				int xMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher1.getControl()));						
-				int yMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher1.getControl()));
+				int xMiss = (int) Math.round(r.nextGaussian()*((500/pitcher2.getControl())+10));						
+				int yMiss = (int) Math.round(r.nextGaussian()*((500/pitcher2.getControl())+10));
 				if(pitch.equals("4-seamer") || pitch.equals("2-seamer") || pitch.equals("Cutter") || pitch.equals("Sinker")) {
 					xMiss = (int) Math.round(xMiss*0.67);
 					yMiss = (int) Math.round(yMiss*0.67);
@@ -843,34 +842,16 @@ public class Game {
 				}
 				System.out.println(pitch + " | x: " + location[0] + " y: " + location[1]);
 				//roll for swing
-				int threshold = 30;
+				double threshold = 80 - (Math.abs(10-location[0])*1.33) - (Math.abs(13-location[1])*1.33);
 				boolean ball = false;
-				if(location[0] < 0) {
-					threshold = threshold + (location[0]);
-					ball = true;
-				}
-				else if(location[0] > 20) {			
-					threshold = threshold - ((location[0]-20));
-					ball = true;
-				}
-				if(location[1] < 0) {
-					threshold = threshold + (location[1]);
-				}				
-				else if(location[1] > 26) {
-					threshold = threshold - ((location[1]-26));
+				if(location[0] < 0 || location[0] > 20 || location[1] < 0 || location[1] > 26) {					
 					ball = true;
 				}				
-				else if(location[0] < 8 || location[0] > 12 || location[1] < 10 || location[1] > 16) {
-					threshold = 60;
-				}
-				else {
-					threshold = 80;
-				}
 				if(strikes == 2) {
-					threshold = threshold + 20;
+					threshold = threshold + 10;
 				}
 				if(balls == 3 && strikes < 2) {
-					threshold = threshold - 20;
+					threshold = threshold - 10;
 				}
 				if(!first[0].equals("") && second[0].equals("")) {
 					int steal = (int) Math.round(Math.random()*100);
@@ -929,46 +910,45 @@ public class Game {
 					}
 				}
 				int s = (int) Math.round(Math.random() * 100);
-				int recogRating = platoonEffect(normalizeRating(lineup2.get(index2.get(lineupCount2)).getRecognition()), 
-								  lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "recognition");
-				int deceptRating = normalizeRating(pitcher1.getDeception());
-				int veloRating = normalizeRating(pitcher1.getVelocity());
-				int moveRating = normalizeRating(pitcher1.getMovement());
-				int aggressRating = normalizeRating(lineup2.get(index2.get(lineupCount2)).getAggression());					
+				int recogRating = platoonEffect(lineup2.get(index2.get(lineupCount2)).getRecognition(), 
+						lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "recognition");
+				int veloRating = pitcher1.getVelocity();
+				int moveRating = pitcher1.getMovement();
+				int aggressRating = lineup2.get(index2.get(lineupCount2)).getAggression();					
 				boolean swung = false;
-				if(s <= threshold - (scale(recogRating, 1, 60, -20, 30)) + (scale(deceptRating, 1, 60, -5, 5)) 
-				   + (scale(veloRating, 1, 60, -5, 5)) + (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
-					swung = true;
-				}
-				else {
-					if(s <= threshold + (scale(recogRating, 1, 60, -20, 30)) - (scale(deceptRating, 1, 60, -5, 5)) 
-					   - (scale(veloRating, 1, 60, -5, 5)) - (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
+				if(ball == true) {
+					if(s <= threshold - (scale(recogRating, 1, 99, -60, 50)) + (scale(veloRating, 1, 99, -5, 5)) 
+					   + (scale(moveRating, 1, 99, -5, 5)) + (scale(aggressRating, 1, 99, -10, 10))) {
 						swung = true;
 					}
-				}		
+				}
+				else {
+					if(s <= threshold + (scale(recogRating, 1, 99, -10, 10)) - (scale(veloRating, 1, 99, -5, 5)) 
+				       - (scale(moveRating, 1, 99, -5, 5)) + (scale(aggressRating, 1, 99, -10, 10))) {
+						swung = true;
+					}
+				}
 				if(swung == true) {
 					//swung, contact roll
 					int c = (int) Math.round(Math.random() * 100);
 					int contactSplit = platoonEffect(lineup2.get(index2.get(lineupCount2)).getContact(), 
 							lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "contact");
-					int recogSplit = platoonEffect(normalizeRating(lineup2.get(index2.get(lineupCount2)).getRecognition()), 
+					int recogSplit = platoonEffect(lineup2.get(index2.get(lineupCount2)).getRecognition(), 
 							lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "recognition");
-					int powerSplit = platoonEffect(normalizeRating(lineup2.get(index2.get(lineupCount2)).getPower()),
-							lineup2.get(index2.get(lineupCount2)), pitcher1, pitch, "batspeed");
-					int normVelocity = normalizeRating(pitcher1.getVelocity());
-					int normMovement = normalizeRating(pitcher1.getMovement());
-					int contact = 80 - Math.abs(10-location[0]) - Math.abs(13-location[1]);
+					int normVelocity = pitcher1.getVelocity();
+					int normMovement = pitcher1.getMovement();
+					int contact = 95 - Math.abs(10-location[0]) - Math.abs(13-location[1]);
 					boolean caught = false;
 					boolean hr = false;
 					String[] outcome = new String[2];
 					if(pitch.equals("Slider") || pitch.equals("Changeup") || pitch.equals("Screwball") || pitch.equals("Splitter")) {
 						contact = contact - 5;
 					}
-					else if(pitch.equals("Curveball") || pitch.equals("4-seamer") || pitch.equals("Knuckleball")) {
+					else if(pitch.equals("Curveball") || pitch.equals("Knuckleball")) {
 						contact = contact - 3;
 					}
-					if(c <= contact + scale(contactSplit, 1, 99, -50, 50) + (scale(recogSplit, 1, 60, -5, 5)) - (scale(normVelocity, 1, 60, -20, 20))
-					   - (scale(normMovement, 1, 60, -15, 15)) - (pitcher1.getPitchSize()-1)*3) {
+					if(c <= contact + scale(contactSplit, 1, 99, -70, 80) + (scale(recogSplit, 1, 99, -5, 5)) - (scale(normVelocity, 1, 99, -25, 25))
+					   - (scale(normMovement, 1, 99, -15, 15)) - (pitcher1.getPitchSize()-1)*3) {
 						BattedBall battedBall = outCome(pitch, location, pitcher1, lineup2.get(index2.get(lineupCount2)));
 						//foul
 						if(battedBall.getFoul() == true) {
@@ -1393,12 +1373,13 @@ public class Game {
 				String pitch = pitcher2.getPitch(balls, strikes, lineup1.get(index1.get(lineupCount1)));
 				Integer[] location = getLocation(pitch).clone();
 				Random r = new Random();
-				int xMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher2.getControl()));						
-				int yMiss = (int) Math.round(r.nextGaussian()*(1200/pitcher2.getControl()));
+				int xMiss = (int) Math.round(r.nextGaussian()*((500/pitcher2.getControl())+10));						
+				int yMiss = (int) Math.round(r.nextGaussian()*((500/pitcher2.getControl())+10));
 				if(pitch.equals("4-seamer") || pitch.equals("2-seamer") || pitch.equals("Cutter") || pitch.equals("Sinker")) {
 					xMiss = (int) Math.round(xMiss*0.67);
 					yMiss = (int) Math.round(yMiss*0.67);
 				}
+				System.out.println("xMiss: " + xMiss + " yMiss: " + yMiss);
 				location[0] = location[0] + xMiss;
 				location[1] = location[1] + yMiss;
 				if(pitcher2.getHand().equals("R")) {
@@ -1438,34 +1419,16 @@ public class Game {
 				System.out.println("xMiss: " + xMiss + " yMiss: " + yMiss);
 				System.out.println(pitch + " | x: " + location[0] + " y: " + location[1]);
 				//roll for swing
-				int threshold = 30;
+				double threshold = 80 - (Math.abs(10-location[0])*1.33) - (Math.abs(13-location[1])*1.33);
 				boolean ball = false;
-				if(location[0] < 0) {
-					threshold = 30 + (location[0]);
+				if(location[0] < 0 || location[0] > 20 || location[1] < 0 || location[1] > 26) {					
 					ball = true;
-				}
-				if(location[1] < 0) {
-					threshold = threshold + (location[1]);
-				}
-				if(location[0] > 20) {
-					threshold = threshold - ((location[0]-20));
-					ball = true;
-				}
-				if(location[1] > 26) {
-					threshold = threshold - ((location[1]-26));
-					ball = true;
-				}	
-				else if(location[0] < 8 || location[0] > 12 || location[1] < 10 || location[1] > 16) {
-					threshold = 60;
-				}
-				else {
-					threshold = 80;
-				}
+				}				
 				if(strikes == 2) {
-					threshold = threshold + 20;
+					threshold = threshold + 10;
 				}
 				if(balls == 3 && strikes < 2) {
-					threshold = threshold - 20;
+					threshold = threshold - 10;
 				}
 				if(!first[0].equals("") && second[0].equals("")) {
 					int steal = (int) Math.round(Math.random()*100);
@@ -1522,22 +1485,21 @@ public class Game {
 					}
 				}
 				int s = (int) Math.round(Math.random() * 100);
-				int recogRating = platoonEffect(normalizeRating(lineup1.get(index1.get(lineupCount1)).getRecognition()), 
+				int recogRating = platoonEffect(lineup1.get(index1.get(lineupCount1)).getRecognition(), 
 						lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "recognition");
-				int deceptRating = normalizeRating(pitcher2.getDeception());
-				int veloRating = normalizeRating(pitcher2.getVelocity());
-				int moveRating = normalizeRating(pitcher2.getMovement());
-				int aggressRating = normalizeRating(lineup1.get(index1.get(lineupCount1)).getAggression());					
+				int veloRating = pitcher2.getVelocity();
+				int moveRating = pitcher2.getMovement();
+				int aggressRating = lineup1.get(index1.get(lineupCount1)).getAggression();					
 				boolean swung = false;
 				if(ball == true) {
-					if(s <= threshold - (scale(recogRating, 1, 60, -20, 30)) + (scale(deceptRating, 1, 60, -5, 5)) 
-					   + (scale(veloRating, 1, 60, -5, 5)) + (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
+					if(s <= threshold - (scale(recogRating, 1, 99, -60, 50)) + (scale(veloRating, 1, 99, -5, 5)) 
+					   + (scale(moveRating, 1, 99, -5, 5)) + (scale(aggressRating, 1, 99, -10, 10))) {
 						swung = true;
 					}
 				}
 				else {
-					if(s <= threshold + (scale(recogRating, 1, 60, -20, 30)) - (scale(deceptRating, 1, 60, -5, 5)) 
-					   - (scale(veloRating, 1, 60, -5, 5)) - (scale(moveRating, 1, 60, -15, 15)) + (scale(aggressRating, 2, 57, -6, 6))) {
+					if(s <= threshold + (scale(recogRating, 1, 99, -10, 10)) - (scale(veloRating, 1, 99, -5, 5)) 
+				       - (scale(moveRating, 1, 99, -5, 5)) + (scale(aggressRating, 1, 99, -10, 10))) {
 						swung = true;
 					}
 				}
@@ -1546,24 +1508,22 @@ public class Game {
 					int c = (int) Math.round(Math.random() * 100);
 					int contactSplit = platoonEffect(lineup1.get(index1.get(lineupCount1)).getContact(), 
 							lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "contact");
-					int recogSplit = platoonEffect(normalizeRating(lineup1.get(index1.get(lineupCount1)).getRecognition()), 
-							lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "recognition");
-					int powerSplit = platoonEffect(normalizeRating(lineup1.get(index1.get(lineupCount1)).getPower()),
-							lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "batspeed");
-					int normVelocity = normalizeRating(pitcher2.getVelocity());
-					int normMovement = normalizeRating(pitcher2.getMovement());
-					int contact = 80 - Math.abs(10-location[0]) - Math.abs(13-location[1]);
+					int recogSplit = platoonEffect(lineup1.get(index1.get(lineupCount1)).getRecognition(), 
+							lineup1.get(index1.get(lineupCount1)), pitcher2, pitch, "recognition");					
+					int normVelocity = pitcher2.getVelocity();
+					int normMovement = pitcher2.getMovement();
+					int contact = 95 - Math.abs(10-location[0]) - Math.abs(13-location[1]);
 					boolean caught = false;
 					boolean hr = false;
 					String[] outcome = new String[2];
 					if(pitch.equals("Slider") || pitch.equals("Changeup") || pitch.equals("Screwball") || pitch.equals("Splitter")) {
 						contact = contact - 5;
 					}
-					else if(pitch.equals("Curveball") || pitch.equals("4-seamer") || pitch.equals("Knuckleball")) {
+					else if(pitch.equals("Curveball") || pitch.equals("Knuckleball")) {
 						contact = contact - 3;
 					}
-					if(c <= contact + scale(contactSplit, 1, 99, -50, 50) + (scale(recogSplit, 1, 60, -5, 5)) - (scale(normVelocity, 1, 60, -20, 20))
-					   - (scale(normMovement, 1, 60, -15, 15)) - (pitcher1.getPitchSize()-1)*3) {
+					if(c <= contact + scale(contactSplit, 1, 99, -70, 80) + (scale(recogSplit, 1, 99, -5, 5)) - (scale(normVelocity, 1, 99, -25, 25))
+					   - (scale(normMovement, 1, 99, -15, 15)) - (pitcher1.getPitchSize()-1)*3) {
 						BattedBall battedBall = outCome(pitch, location, pitcher2, lineup1.get(index1.get(lineupCount1)));
 						//foul
 						if(battedBall.getFoul() == true) {

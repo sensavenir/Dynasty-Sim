@@ -48,6 +48,7 @@ public class Pitcher {
 	private String batting;
 	private String throwing;
 	private int scoutability;
+	private double ops;
 	HashMap <String, Double> outcomes = new HashMap<String, Double>();
 	
 	public String getHand() {
@@ -181,7 +182,7 @@ public class Pitcher {
 	}
 	
 	public void printOut() {
-		System.out.println(name + ": pitcher");
+		System.out.println(name + ": pitcher" + " | " + this.throwing);
 		System.out.println("PO " + potVelocity + " FI " + potMovement + " CO " + potControl  + " SY " + potDeception + " EN " + potEndurance + ", " + mphVelocity + " mph fastball");
 		String pitches = pitchTypes.get(0) + ", ";
 		for(int i = 1; i < pitchTypes.size(); i++) {
@@ -191,6 +192,10 @@ public class Pitcher {
 			}
 		}
 		System.out.println(pitches);
+	}
+	
+	public double getOPS() {
+		return this.ops;
 	}
 	
 	public void printLine() {
@@ -212,7 +217,7 @@ public class Pitcher {
 		System.out.println("OBP: " + obp);
 		double slg = (outcomes.get("1B") + (2*outcomes.get("2B")) + (3*outcomes.get("3B")) + (4*outcomes.get("HR")))/outcomes.get("PA");
 		System.out.println("SLG: " + slg);
-		double ops = obp + slg;
+		this.ops = obp + slg;
 		System.out.println("OPS: " + ops);
 		double gofo = outcomes.get("GO")/outcomes.get("FO");		
 		System.out.println("GB/FB: " + gofo);
