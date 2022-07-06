@@ -114,7 +114,7 @@ public class Player {
 	//generate random rating 1-99
 	private int setPotential() {
 		Random r = new Random();
-		int tempRating = (int) Math.round((r.nextGaussian()*13)+70);
+		int tempRating = (int) Math.round((r.nextGaussian()*13)+65);
 		if(tempRating > 99) {
 			tempRating = 99;
 		}
