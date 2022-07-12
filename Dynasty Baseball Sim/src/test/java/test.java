@@ -3,7 +3,7 @@ public class test {
 
 	public static void main(String[] args) {
 		League league = new League("Test", 75, true, true, "Wheel", 8, "Average", true);
-		for(int i = 0; i < 22; i++) {
+		for(int i = 0; i < 20; i++) {
 			Game game = new Game(league.getTeam(0), league.getTeam(1));
 			Game game1 = new Game(league.getTeam(0), league.getTeam(2));
 			Game game2 = new Game(league.getTeam(0), league.getTeam(3));
@@ -35,10 +35,18 @@ public class test {
 		}
 		double hOPS = 0;
 		double pOPS = 0;
+		double iHits = 0;
+		double oHits = 0;
+		double iOuts = 0;
+		double oOuts = 0;
 		for(int a = 0; a < 8; a++) {
 			for(int i = 0; i < league.getTeam(0).getRHP().size(); i++) {
 				league.getTeam(a).getRHP().get(i).printLine();
 				hOPS = hOPS + league.getTeam(a).getRHP().get(i).getOPS();
+				iHits = iHits + league.getTeam(a).getRHP().get(i).getBIP("IFH");
+				iOuts = iOuts + league.getTeam(a).getRHP().get(i).getBIP("IFO");
+				oHits = oHits + league.getTeam(a).getRHP().get(i).getBIP("OFH");
+				oOuts = oOuts + league.getTeam(a).getRHP().get(i).getBIP("OFO");
 			}
 			for(int i = 0; i < 5; i++) {
 				league.getTeam(a).getStarter().printLine();
@@ -48,5 +56,8 @@ public class test {
 		hOPS = hOPS/72;
 		pOPS = pOPS/40;
 		System.out.println(hOPS + " | " + pOPS);
+		double iBabip = iHits/(iHits+iOuts);
+		double oBabip = oHits/(oHits+oOuts);
+		System.out.println(iBabip + " | " + oBabip);
 	}
 }

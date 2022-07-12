@@ -134,6 +134,10 @@ public class Player {
 		return this.ops;
 	}
 	
+	public double getBIP(String type) {
+		return outcomes.get(type);
+	}
+	
 	public void printOut() {
 		if(!position.equals("x")) {
 			System.out.println(name + ": " + position + " | " + this.batting + "/" + this.throwing);			
@@ -186,6 +190,12 @@ public class Player {
 		outcomes.put("LO", 0.0);
 		outcomes.put("FF", 0.0);
 		outcomes.put("FL", 0.0);
+		outcomes.put("TO", 0.0);
+		outcomes.put("ST", 0.0);
+		outcomes.put("IFH", 0.0);
+		outcomes.put("IFO", 0.0);
+		outcomes.put("OFH", 0.0);
+		outcomes.put("OFO", 0.0);
 		ArrayList<String> firstNames = new ArrayList<String>();
 		Random r = new Random();
 		try {

@@ -200,17 +200,23 @@ public class Pitcher {
 	
 	public void printLine() {
 		printOut();
-		double innings = outcomes.get("PA")/3;
+		double innings = outcomes.get("Innings")/3;
+		double era = (outcomes.get("R")/innings)*9;
+		System.out.println("ERA: " + era);
 		System.out.println("Innings: " + innings);
 		System.out.println("PA: " + outcomes.get("PA"));
 		System.out.println("1B: " + outcomes.get("1B"));
-		System.out.println("1B: " + outcomes.get("2B"));
-		System.out.println("1B: " + outcomes.get("3B"));
+		System.out.println("2B: " + outcomes.get("2B"));
+		System.out.println("3B: " + outcomes.get("3B"));
 		System.out.println("HR: " + outcomes.get("HR"));
 		double k = (outcomes.get("K")/outcomes.get("PA"))*100;		
 		System.out.println("K%: " + k);
+		k = (outcomes.get("K")/innings)*9;	
+		System.out.println("K/9: " + k);
 		double bb = (outcomes.get("BB")/outcomes.get("PA"))*100;
 		System.out.println("BB%: " + bb);
+		bb = (outcomes.get("BB")/innings)*9;	
+		System.out.println("BB/9: " + bb);
 		double average = (outcomes.get("1B") + outcomes.get("2B") + outcomes.get("3B") + outcomes.get("HR"))/outcomes.get("PA");
 		System.out.println("Average: " + average);
 		double obp = (outcomes.get("1B") + outcomes.get("2B") + outcomes.get("3B") + outcomes.get("HR") + outcomes.get("BB"))/outcomes.get("PA");
@@ -244,6 +250,7 @@ public class Pitcher {
 		outcomes.put("LO", 0.0);
 		outcomes.put("FF", 0.0);
 		outcomes.put("FL", 0.0);
+		outcomes.put("R", 0.0);
 		ArrayList<String> firstNames = new ArrayList<String>();
 		Random r = new Random();
 		try { 
