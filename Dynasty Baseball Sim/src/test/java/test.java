@@ -3,7 +3,7 @@ public class test {
 
 	public static void main(String[] args) {
 		League league = new League("Test", 75, true, true, "Wheel", 8, "Average", true);
-		for(int i = 0; i < 20; i++) {
+		for(int i = 0; i < 100; i++) {
 			Game game = new Game(league.getTeam(0), league.getTeam(1));
 			Game game1 = new Game(league.getTeam(0), league.getTeam(2));
 			Game game2 = new Game(league.getTeam(0), league.getTeam(3));
